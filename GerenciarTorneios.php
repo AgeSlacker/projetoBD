@@ -100,6 +100,7 @@ $list_slots = $conn->query($sql);
             padding: 0;
         }
     </style>
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body style="padding: 0px;">
