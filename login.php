@@ -68,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>RegisterLogin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body>

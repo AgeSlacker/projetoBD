@@ -69,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             max-width: 350px;
         }
     </style>
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body>

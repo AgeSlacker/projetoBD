@@ -23,6 +23,7 @@ if ($conn->connect_error) {
     <link rel="stylesheet" href="assets/css/Footer-Dark.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body style="background-color: rgb(0,0,0);">
