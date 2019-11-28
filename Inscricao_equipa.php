@@ -11,6 +11,26 @@ function exit_to_list_torneios()
 
 $jogadores;
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Inscrever o jogador na equipa
+    if (!empty($_POST["titularSelect"])) {
+
+        echo '<pre>' . print_r($_POST, TRUE) . '</pre>';
+
+        $cc = $_SESSION["cc"];
+        $equipaNome = $_POST["equipaNome"]; // TODO check if set
+        $gr = (isset($_POST["podeGuardaRedes"]) && $_POST["podeGuardaRedes"] == "on") ? 1 : 0;
+        $pos = $_POST["titularSelect"];
+        // TODO check if exists, titular, check saldo ?
+        $sql = "INSERT INTO posjogadorequipa (titular, posicao, suplenteguardaredes, convocavel, ordem, equipa_nome, pessoa_cc) 
+            VALUES (0, '$pos', $gr, 1, 3, '$equipaNome', $cc);";
+        echo $sql;
+        if (!$conn->query($sql)) {
+            echo mysqli_error($conn);
+        }
+    }
+}
+
 if (isset($_GET["nome"])) {
     // verificar se a equipa existe;
     $nome = mysqli_real_escape_string($conn, $_GET["nome"]);
@@ -52,20 +72,29 @@ if (isset($_GET["nome"])) {
                 <div class="col-md-6">
                     <div class="jumbotron">
                         <h1>Inscrição na equipa A</h1>
-                        <form>
-                            <div class="form-group text-left"><label>Posição Titular</label>
-                                <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect">
-                                    <optgroup label="Escolha uma posiçao">
-                                        <option selected="">Avançado</option>
-                                        <option>Médio</option>
-                                        <option>Defesa</option>
-                                        <option>Guarda Redes</option>
-                                    </optgroup>
-                                </select></div>
-                            <div class="form-group">
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Pode substituir Guarda redes</label></div>
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group text-left"><label>Posição Titular</label>
+                                        <input hidden value="<?php echo $_GET["nome"] ?>" name="equipaNome">
+                                        <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect" name="titularSelect">
+                                            <optgroup label="Escolha uma posiçao">
+                                                <option selected="">Avançado</option>
+                                                <option>Médio</option>
+                                                <option>Defesa</option>
+                                                <option>Guarda Redes</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="serverAns" style="align-items: center; display: flex;">
+                                    <p>TEST</p>
+                                </div>
                             </div>
-                            <div class="form-group text-center"><button class="btn btn-dark" type="button" style="margin-right: 25px;width: 100px;">Cancelar</button><button class="btn btn-primary" type="button" style="width: 100px;">Submeter</button></div>
+                            <div class="form-group">
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1" name="podeGuardaRedes"><label class="form-check-label" for="formCheck-1">Pode substituir Guarda redes</label></div>
+                            </div>
+                            <div class="form-group text-center"><button class="btn btn-dark" type="button" style="margin-right: 25px;width: 100px;">Cancelar</button><button class="btn btn-primary" type="submit" style="width: 100px;">Submeter</button></div>
                         </form>
                         <p>Composição da equipa (4-3-3)</p>
                         <div class="table-responsive">
@@ -111,23 +140,16 @@ if (isset($_GET["nome"])) {
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
+
 <script>
-    $("#titularSelect").change(function(e) {
-        e.preventDefault();
-        alert("test");
-        $.ajax({
-            "request_test.php",
-            {
-                success: function(data) {
-
-                },
-                error: function() {
-                    alert("error in ajax call");
-                }
-            }
-
-        })
-    })
+    $(document).ready(function() {
+        $("#titularSelect").change(function() {
+            $("#serverAns").load("get_team_slots.php", {
+                position: $("#titularSelect").val(),
+                equipa: <?php echo '"' . $_GET["nome"] . '"' ?>
+            });
+        });
+    });
 </script>
 
 </html>
