@@ -11,7 +11,7 @@
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);">Quero Jogar</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="listar_torneios.php" style="color: rgb(255,255,255);">Lista Torneios</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);">Criar Torneio</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="criarTorneio.php" style="color: rgb(255,255,255);">Criar Torneio</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);">Sobre/Ajuda</a></li>
                 <?php
 
