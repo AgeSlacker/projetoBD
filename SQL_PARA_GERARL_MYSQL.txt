@@ -1,0 +1,174 @@
+SET SQL_MODE='ALLOW_INVALID_DATES';
+
+CREATE TABLE pessoa (
+	cc		 bigint,
+	nome		 varchar(512) NOT NULL,
+	sobrenome	 varchar(512) NOT NULL,
+	contacto	 varchar(512) UNIQUE NOT NULL,
+	email	 varchar(512) UNIQUE NOT NULL,
+	password	 varchar(512) NOT NULL,
+	data_nasc	 date,
+	profile_photo varchar(512),
+	saldo	 numeric(8,2) NOT NULL,
+	PRIMARY KEY(cc)
+);
+
+CREATE TABLE posjogadorequipa (
+	titular		 boolean NOT NULL,
+	posicao		 varchar(512) NOT NULL,
+	suplenteguardaredes boolean NOT NULL,
+	convocavel		 boolean NOT NULL,
+	ordem		 int UNIQUE NOT NULL,
+	equipa_nome	 varchar(512),
+	pessoa_cc		 bigint,
+	PRIMARY KEY(equipa_nome,pessoa_cc)
+);
+
+CREATE TABLE torneio (
+	id	 bigint AUTO_INCREMENT,
+	iniciado boolean NOT NULL,
+	inicio	 date NOT NULL,
+	fim	 date NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE campo (
+	nome	 varchar(512),
+	cidade	 varchar(512) NOT NULL,
+	localizacao varchar(512),
+	PRIMARY KEY(nome)
+);
+
+CREATE TABLE jogo (
+	id		 bigint AUTO_INCREMENT,
+	golosa1		 smallint,
+	golosb1		 smallint,
+	golosa2		 smallint,
+	golosb2		 smallint,
+	slot_hora_inicio timestamp NOT NULL,
+	slot_torneio_id	 bigint NOT NULL,
+	equipa_nome	 varchar(512) NOT NULL,
+	equipa_nome1	 varchar(512) NOT NULL,
+	campo_nome	 varchar(512) NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE equipa (
+	nome	 varchar(512),
+	composicao varchar(512),
+	aceite	 boolean,
+	pessoa_cc	 bigint NOT NULL,
+	torneio_id bigint NOT NULL,
+	PRIMARY KEY(nome)
+);
+
+CREATE TABLE privilegios (
+	privilegio varchar(512),
+	PRIMARY KEY(privilegio)
+);
+
+CREATE TABLE golos (
+	tempo	 timestamp,
+	valido	 boolean,
+	jogo_id	 bigint,
+	pessoa_cc bigint,
+	PRIMARY KEY(jogo_id,pessoa_cc)
+);
+
+CREATE TABLE ban (
+	razao	 varchar(512) NOT NULL,
+	date_ban	 date NOT NULL,
+	pessoa_cc bigint UNIQUE NOT NULL
+);
+
+CREATE TABLE substituto (
+	cc		 bigint,
+	nome	 bigint NOT NULL,
+	contacto	 varchar(512) UNIQUE NOT NULL,
+	isregistred boolean,
+	jogo_id	 bigint,
+	PRIMARY KEY(cc,jogo_id)
+);
+
+CREATE TABLE notificacoes (
+	hora	 timestamp,
+	conteudo	 varchar(512) NOT NULL,
+	pessoa_cc bigint,
+	PRIMARY KEY(hora,pessoa_cc)
+);
+
+CREATE TABLE slot (
+	hora_inicio timestamp,
+	hora_fim	 timestamp,
+	data	 date,
+	torneio_id	 bigint,
+	PRIMARY KEY(hora_inicio,torneio_id)
+);
+
+CREATE TABLE capitao_jogo (
+	pessoa_cc bigint,
+	jogo_id	 bigint,
+	PRIMARY KEY(pessoa_cc,jogo_id)
+);
+
+CREATE TABLE jogador_substituto (
+	pessoa_cc		 bigint,
+	substituto_cc	 bigint,
+	substituto_jogo_id bigint,
+	PRIMARY KEY(pessoa_cc,substituto_cc,substituto_jogo_id)
+);
+
+CREATE TABLE torneio_jogador (
+	torneio_id bigint,
+	pessoa_cc	 bigint,
+	PRIMARY KEY(torneio_id,pessoa_cc)
+);
+
+CREATE TABLE capitao_pessoa (
+	pessoa_cc	 bigint,
+	pessoa_cc1 bigint,
+	PRIMARY KEY(pessoa_cc,pessoa_cc1)
+);
+
+CREATE TABLE torneio_gestor (
+	torneio_id bigint,
+	pessoa_cc	 bigint,
+	PRIMARY KEY(torneio_id,pessoa_cc)
+);
+
+CREATE TABLE pessoa_privilegios (
+	pessoa_cc		 bigint,
+	privilegios_privilegio varchar(512),
+	PRIMARY KEY(pessoa_cc,privilegios_privilegio)
+);
+
+ALTER TABLE posjogadorequipa ADD CONSTRAINT posjogadorequipa_fk1 FOREIGN KEY (equipa_nome) REFERENCES equipa(nome);
+ALTER TABLE posjogadorequipa ADD CONSTRAINT posjogadorequipa_fk2 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE jogo ADD CONSTRAINT jogo_fk1 FOREIGN KEY (slot_hora_inicio,slot_torneio_id) REFERENCES slot(hora_inicio,torneio_id);
+ALTER TABLE jogo ADD CONSTRAINT jogo_fk3 FOREIGN KEY (equipa_nome) REFERENCES equipa(nome);
+ALTER TABLE jogo ADD CONSTRAINT jogo_fk4 FOREIGN KEY (equipa_nome1) REFERENCES equipa(nome);
+ALTER TABLE jogo ADD CONSTRAINT jogo_fk5 FOREIGN KEY (campo_nome) REFERENCES campo(nome);
+ALTER TABLE equipa ADD CONSTRAINT equipa_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE equipa ADD CONSTRAINT equipa_fk2 FOREIGN KEY (torneio_id) REFERENCES torneio(id);
+ALTER TABLE golos ADD CONSTRAINT golos_fk1 FOREIGN KEY (jogo_id) REFERENCES jogo(id);
+ALTER TABLE golos ADD CONSTRAINT golos_fk2 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE ban ADD CONSTRAINT ban_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE substituto ADD CONSTRAINT substituto_fk1 FOREIGN KEY (jogo_id) REFERENCES jogo(id);
+ALTER TABLE notificacoes ADD CONSTRAINT notificacoes_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE slot ADD CONSTRAINT slot_fk1 FOREIGN KEY (torneio_id) REFERENCES torneio(id);
+ALTER TABLE capitao_jogo ADD CONSTRAINT capitao_jogo_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE capitao_jogo ADD CONSTRAINT capitao_jogo_fk2 FOREIGN KEY (jogo_id) REFERENCES jogo(id);
+ALTER TABLE jogador_substituto ADD CONSTRAINT jogador_substituto_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE jogador_substituto ADD CONSTRAINT jogador_substituto_fk2 FOREIGN KEY (substituto_cc,substituto_jogo_id) REFERENCES substituto(cc,jogo_id);
+ALTER TABLE torneio_jogador ADD CONSTRAINT torneio_jogador_fk1 FOREIGN KEY (torneio_id) REFERENCES torneio(id);
+ALTER TABLE torneio_jogador ADD CONSTRAINT torneio_jogador_fk2 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE capitao_pessoa ADD CONSTRAINT capitao_pessoa_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE capitao_pessoa ADD CONSTRAINT capitao_pessoa_fk2 FOREIGN KEY (pessoa_cc1) REFERENCES pessoa(cc);
+ALTER TABLE torneio_gestor ADD CONSTRAINT torneio_gestor_fk1 FOREIGN KEY (torneio_id) REFERENCES torneio(id);
+ALTER TABLE torneio_gestor ADD CONSTRAINT torneio_gestor_fk2 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE pessoa_privilegios ADD CONSTRAINT pessoa_privilegios_fk1 FOREIGN KEY (pessoa_cc) REFERENCES pessoa(cc);
+ALTER TABLE pessoa_privilegios ADD CONSTRAINT pessoa_privilegios_fk2 FOREIGN KEY (privilegios_privilegio) REFERENCES privilegios(privilegio);
+
+
+ALTER TABLE `torneio` ADD `cidade` VARCHAR(50) NOT NULL AFTER `fim`;
+ALTER TABLE `pessoa` CHANGE `profile_photo` `profile_photo` BLOB NULL DEFAULT NULL;
