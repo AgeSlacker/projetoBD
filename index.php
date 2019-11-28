@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 // mudou
 ?>
 
-<!DOCTYPE htmldushu>
+<!DOCTYPE html>
 <html>
 
 <head>
