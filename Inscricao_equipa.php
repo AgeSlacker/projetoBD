@@ -56,15 +56,23 @@ if (isset($_GET["nome"])) {
                     <div class="jumbotron">
                         <h1>Inscrição na equipa A</h1>
                         <form>
-                            <div class="form-group text-left"><label>Posição Titular</label>
-                                <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect">
-                                    <optgroup label="Escolha uma posiçao">
-                                        <option selected="">Avançado</option>
-                                        <option>Médio</option>
-                                        <option>Defesa</option>
-                                        <option>Guarda Redes</option>
-                                    </optgroup>
-                                </select></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group text-left"><label>Posição Titular</label>
+                                        <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect">
+                                            <optgroup label="Escolha uma posiçao">
+                                                <option selected="">Avançado</option>
+                                                <option>Médio</option>
+                                                <option>Defesa</option>
+                                                <option>Guarda Redes</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="serverAns" style="align-items: center; display: flex;">
+                                    <p>TEST</p>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Pode substituir Guarda redes</label></div>
                             </div>
@@ -114,23 +122,17 @@ if (isset($_GET["nome"])) {
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
+
 <script>
-    $("#titularSelect").change(function(e) {
-        e.preventDefault();
-        alert("test");
-        $.ajax({
-            "request_test.php",
-            {
-                success: function(data) {
-
-                },
-                error: function() {
-                    alert("error in ajax call");
-                }
-            }
-
-        })
-    })
+    $(document).ready(function() {
+        $("#titularSelect").change(function() {
+            alert("there we go");
+            $("#serverAns").load("get_team_slots.php", {
+                position: $("#titularSelect").val(),
+                equipa: <?php echo '"' . $_GET["nome"] . '"' ?>
+            });
+        });
+    });
 </script>
 
 </html>

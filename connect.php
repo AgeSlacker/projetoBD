@@ -1,5 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "projeto";
+$servername = "81.88.52.17";
+$port = 3306;
+$username = "qm3jt7qs_AIOO";
 $password = "basesdedados";
-$dbname = "projeto_bd";
+$dbname = "qm3jt7qs_projetobd_aioo";
+
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
