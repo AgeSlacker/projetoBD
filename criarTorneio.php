@@ -7,10 +7,6 @@ session_start();
 <?php
 require_once "connect.php";
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 echo "<pre>" . print_r($_POST, true) . "</pre>";
 
