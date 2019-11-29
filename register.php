@@ -1,13 +1,12 @@
 <?php
 session_start();
+// Se já estiver loggado volta para o index
 if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
     header('Location: index.php');
     exit();
 }
-?>
 
-<?php require_once "connect.php";
-
+require_once "connect.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (

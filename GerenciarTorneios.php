@@ -3,14 +3,8 @@ session_start();
 
 echo print_r($_SESSION, true);
 
-if (!(isset($_SESSION['logged']) && ($_SESSION['logged'] == true))) {
-    header('Location: index.php');
-    exit();
-}
-
-?>
-
-<?php require_once "connect.php";
+require "force_login.php";
+require_once "connect.php";
 
 if (isset($_GET['torneioid'])) {
     $torneioid = $_GET['torneioid'];

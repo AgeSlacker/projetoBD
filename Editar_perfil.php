@@ -1,12 +1,7 @@
 <?php
 session_start();
-if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
-    //header('Location: user_main_page.php');
-    exit();
-}
-?>
-
-<?php require_once "connect.php";
+require "force_login.php";
+require_once "connect.php";
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -65,7 +60,7 @@ if (!empty($_POST)) {
 
         $sql = "UPDATE pessoa SET nome = '$nome', sobrenome = '$sobrenome', contacto = $cont, email = '$email', data_nasc = '$data'. 
             WHERE pessoa.cc = 14900002";
-    
+
     echo $sql;
 
     if (!$conn->query($sql)) {
@@ -99,9 +94,7 @@ $pessoa = $result->fetch_assoc();
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-md bg-dark">
-        <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse"
-                class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                    class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="#">First</a></li>
@@ -117,25 +110,19 @@ $pessoa = $result->fetch_assoc();
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <img class="img-thumbnail img-fluid" src="assets/img/default-user.png" loading="auto"
-                            width="400">
+                        <img class="img-thumbnail img-fluid" src="assets/img/default-user.png" loading="auto" width="400">
                         <input class="form-control" type="text" placeholder="Nome" name="nome" value="<?php
                                                                                                         echo $pessoa["nome"];
                                                                                                         ?>">
-                        <input class="form-control" type="text" placeholder="Sobrenome" name="sobrenome"
-                            value="<?php echo $pessoa["sobrenome"]; ?>">
+                        <input class="form-control" type="text" placeholder="Sobrenome" name="sobrenome" value="<?php echo $pessoa["sobrenome"]; ?>">
                     </div>
                     <div class="col-md-6 align-self-center">
-                        <input class="form-control" type="email" placeholder="Email" name="email"
-                            value="<?php echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;">
-                        <input class="form-control" type="tel" placeholder="contacto" name="contacto"
-                            value="<?php echo $pessoa["contacto"]; ?>">
-                        <input class="form-control" type="date" name="data" placeholder="dd-mm-aaaa"
-                            value="<?php echo $pessoa["data_nasc"]; ?>">
+                        <input class="form-control" type="email" placeholder="Email" name="email" value="<?php echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;">
+                        <input class="form-control" type="tel" placeholder="contacto" name="contacto" value="<?php echo $pessoa["contacto"]; ?>">
+                        <input class="form-control" type="date" name="data" placeholder="dd-mm-aaaa" value="<?php echo $pessoa["data_nasc"]; ?>">
                         <input class="form-control" type="password" placeholder="password atual" name="password">
                         <input class="form-control" type="password" placeholder="password nova" name="password_nova">
-                        <input class="form-control" type="password" placeholder="password nova repetida"
-                            name="password_nova_rep">
+                        <input class="form-control" type="password" placeholder="password nova repetida" name="password_nova_rep">
                         <input class="form-control" type="text" placeholder="Descrição">
                         <a href="Meu_perfil.php?id=14900002">
                             <button class="btn btn-primary" type="submit">Guardar</button>

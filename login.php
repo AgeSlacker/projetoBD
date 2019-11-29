@@ -1,12 +1,12 @@
 <?php
 session_start();
+// If already logged in redirect to index
 if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
     header('Location: index.php');
     exit();
 }
-?>
 
-<?php require_once "connect.php";
+require_once "connect.php";
 
 function get_password_by_id($cc, $conn)
 {

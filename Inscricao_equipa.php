@@ -1,5 +1,6 @@
 <?php
 session_start();
+require "force_login.php";
 require_once "connect.php";
 
 
@@ -146,10 +147,13 @@ if (isset($_GET["nome"])) {
     $(document).ready(function() {
         $("#titularSelect").change(function() {
             <<
-            << << < HEAD
+            <<
+            << < HEAD
             alert("there we go"); ===
-            === = >>>
-            >>> > origin / achilles
+            ===
+            = >>>
+            >>>
+            > origin / achilles
             $("#serverAns").load("get_team_slots.php", {
                 position: $("#titularSelect").val(),
                 equipa: <?php echo '"' . $_GET["nome"] . '"' ?>

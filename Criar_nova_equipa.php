@@ -1,12 +1,8 @@
 <?php
 session_start();
-if (!(isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
-    header('Location: login.php');
-    exit();
-}
-?>
 
-<?php require_once "connect.php";
+require "force_login.php";
+require_once "connect.php";
 
 if (isset($_GET["id"])) {
     $id = $_GET["id"];

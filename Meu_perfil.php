@@ -1,22 +1,15 @@
 <?php
 session_start();
-if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
-    //header('Location: user_main_page.php');
-    exit();
-}
-?>
+require "force_login.php";
+require_once "connect.php";
 
-<?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-//conecção feita
 $id;
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
 
-    $sql = "SELECT cc,nome,sobrenome,contacto,email,data_nasc,profile_photo,saldo from pessoa where cc=$id";
+    $sql = "SELECT cc,nome,sobrenome,contacto,email,data_nasc,profile_photo,saldo 
+            FROM pessoa 
+            WHERE cc=$id";
 
     echo $sql;
 
@@ -45,9 +38,7 @@ if (isset($_GET["id"])) {
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-md bg-dark">
-        <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse"
-                class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                    class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item" role="presentation"><a class="nav-link active" href="#">First</a></li>
@@ -61,8 +52,7 @@ if (isset($_GET["id"])) {
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-md-6"><img class="img-thumbnail img-fluid" src="assets/img/default-user.png"
-                        loading="auto">
+                <div class="col-md-6"><img class="img-thumbnail img-fluid" src="assets/img/default-user.png" loading="auto">
                     <form>
                         <input class="form-control" type="text" disabled="" value=" <?php
                                                                                     echo $pessoa["nome"];
@@ -72,8 +62,7 @@ if (isset($_GET["id"])) {
                 <div class="col-md-6 align-self-center">
                     <form>
                         <input class="form-control" type="email" value="<?php
-                                                                        echo $pessoa["email"]; ?>"
-                            style="margin: 0px;margin-bottom: 0px;" disabled="">
+                                                                        echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;" disabled="">
                         <input class="form-control" type="tel" value="<?php echo $pessoa["contacto"]; ?>" disabled="">
                         <input class="form-control" type="date" value="<?php echo $pessoa["data_nasc"]; ?>" disabled="">
                         <input class="form-control" type="text" placeholder="temos de alterar isto" disabled="">

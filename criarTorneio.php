@@ -1,12 +1,8 @@
 <?php
 session_start();
 
-
-?>
-
-<?php
+require "force_login.php";
 require_once "connect.php";
-
 
 echo "<pre>" . print_r($_POST, true) . "</pre>";
 

@@ -1,14 +1,7 @@
 <?php
 session_start();
-
-?>
-
-
-<?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require "force_login.php";
+require_once "connect.php";
 
 ?>
 <html>
@@ -29,17 +22,18 @@ if ($conn->connect_error) {
     <div class="row">
         <div class="col">
             <h1 class="text-center">Minha Área ( <?php
-				$cc = $_SESSION["cc"];
-				$pesquisa = "SELECT nome
+                                                    $cc = $_SESSION["cc"];
+                                                    $pesquisa = "SELECT nome
 						FROM pessoa
 						WHERE cc = '$cc'";
-				if ($result= $conn->query($pesquisa)){
-					
-					$row = $result->fetch_assoc();
-					$nomelog = $row["nome"];
-					
-				echo $nomelog;}
-						?>)</h1>
+                                                    if ($result = $conn->query($pesquisa)) {
+
+                                                        $row = $result->fetch_assoc();
+                                                        $nomelog = $row["nome"];
+
+                                                        echo $nomelog;
+                                                    }
+                                                    ?>)</h1>
         </div>
     </div>
     <div class="row" style="height: 15%;">
