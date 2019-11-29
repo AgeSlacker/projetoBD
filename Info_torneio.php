@@ -21,8 +21,14 @@ if (isset($_GET["id"])) {
 
     // ir buscar os jogos passados e criar a tabela de resultados
 
-    $sql = "SELECT nome
-            FROM equipa";
+    $sql = "SELECT SUM(j) AS jogos, nome FROM ( SELECT nome, COUNT(equipa_nome) AS j
+                                                FROM equipa LEFT JOIN jogo ON nome = equipa_nome 
+                                                GROUP BY nome
+                                                UNION
+                                                SELECT nome, COUNT(equipa_nome1) AS j
+                                                FROM equipa LEFT JOIN jogo ON nome = equipa_nome1
+                                                GROUP BY nome) AS t
+            GROUP BY nome";
 
     $resultados = $conn->query($sql);
 } else {
@@ -144,9 +150,10 @@ if (isset($_GET["id"])) {
                             // preencher os resultados das equipas
                             while ($equipa = $resultados->fetch_assoc()) {
                                 $nome = $equipa["nome"];
+                                $jogos = $equipa["jogos"];
                                 echo "<tr>
                                     <td>$nome</td>
-                                    <td>Cell 2</td>
+                                    <td>$jogos</td>
                                     <td>Cell 3</td>
                                     <td>Cell 4</td>
                                     <td>Cell 5</td>
