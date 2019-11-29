@@ -7,10 +7,7 @@ if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
 ?>
 
 <?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (
@@ -69,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             max-width: 350px;
         }
     </style>
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body>

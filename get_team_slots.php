@@ -1,14 +1,18 @@
 <?php
-include "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once "connect.php";
 if (!empty($_POST["position"]) && !empty($_POST["equipa"])) {
-    $pos = mysqli_real_escape_string($conn, $_POST["position"]);
     $equipa = mysqli_real_escape_string($conn, $_POST["equipa"]);
-
-    $sql = "SELECT count(*) FROM ";
-
-    echo "<p> yea?</p>";
+    $sql = "SELECT count(*) as count
+            FROM posjogadorequipa as p
+            WHERE p.equipa_nome = '$equipa'";
+    $result = $conn->query($sql);
+    if (!$result) {
+        echo mysqli_error($conn);
+    }
+    $count = $result->fetch_assoc()["count"];
+    if ($count == 0) {
+        echo "<p> Posição está livre </p>";
+        exit();
+    }
+    echo "<p>Há $count pessoas com essa posição</p>";
 }

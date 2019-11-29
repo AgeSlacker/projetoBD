@@ -2,11 +2,7 @@
 session_start();
 
 require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-//
+// mudou
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +19,7 @@ if ($conn->connect_error) {
     <link rel="stylesheet" href="assets/css/Footer-Dark.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body style="background-color: rgb(0,0,0);">

@@ -1,18 +1,16 @@
 <?php
 session_start();
-if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
+
+echo print_r($_SESSION, true);
+
+if (!(isset($_SESSION['logged']) && ($_SESSION['logged'] == true))) {
     header('Location: index.php');
-    session_unset();
-    session_destroy();
     exit();
 }
+
 ?>
 
 <?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if (isset($_GET['torneioid'])) {
     $torneioid = $_GET['torneioid'];
@@ -100,9 +98,10 @@ $list_slots = $conn->query($sql);
             padding: 0;
         }
     </style>
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body style="padding: 0px;">
+<body style="overflow-x:hidden;padding: 0px;">
     <?php require "top_navbar.php" ?>
     <div>
         <div class="container" style="width: 100%;max-width: 100%;min-width: 30%;">

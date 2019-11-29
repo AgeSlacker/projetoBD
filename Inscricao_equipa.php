@@ -1,10 +1,7 @@
 <?php
 session_start();
 require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 function exit_to_list_torneios()
 {
@@ -13,6 +10,26 @@ function exit_to_list_torneios()
 }
 
 $jogadores;
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Inscrever o jogador na equipa
+    if (!empty($_POST["titularSelect"])) {
+
+        echo '<pre>' . print_r($_POST, TRUE) . '</pre>';
+
+        $cc = $_SESSION["cc"];
+        $equipaNome = $_POST["equipaNome"]; // TODO check if set
+        $gr = (isset($_POST["podeGuardaRedes"]) && $_POST["podeGuardaRedes"] == "on") ? 1 : 0;
+        $pos = $_POST["titularSelect"];
+        // TODO check if exists, titular, check saldo ?
+        $sql = "INSERT INTO posjogadorequipa (titular, posicao, suplenteguardaredes, convocavel, ordem, equipa_nome, pessoa_cc) 
+            VALUES (0, '$pos', $gr, 1, 3, '$equipaNome', $cc);";
+        echo $sql;
+        if (!$conn->query($sql)) {
+            echo mysqli_error($conn);
+        }
+    }
+}
 
 if (isset($_GET["nome"])) {
     // verificar se a equipa existe;
@@ -45,6 +62,7 @@ if (isset($_GET["nome"])) {
     <title>Untitled</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body>
@@ -55,11 +73,12 @@ if (isset($_GET["nome"])) {
                 <div class="col-md-6">
                     <div class="jumbotron">
                         <h1>Inscrição na equipa A</h1>
-                        <form>
+                        <form method="post">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group text-left"><label>Posição Titular</label>
-                                        <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect">
+                                        <input hidden value="<?php echo $_GET["nome"] ?>" name="equipaNome">
+                                        <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect" name="titularSelect">
                                             <optgroup label="Escolha uma posiçao">
                                                 <option selected="">Avançado</option>
                                                 <option>Médio</option>
@@ -74,9 +93,9 @@ if (isset($_GET["nome"])) {
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Pode substituir Guarda redes</label></div>
+                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1" name="podeGuardaRedes"><label class="form-check-label" for="formCheck-1">Pode substituir Guarda redes</label></div>
                             </div>
-                            <div class="form-group text-center"><button class="btn btn-dark" type="button" style="margin-right: 25px;width: 100px;">Cancelar</button><button class="btn btn-primary" type="button" style="width: 100px;">Submeter</button></div>
+                            <div class="form-group text-center"><a class="btn btn-dark" href="" style="margin-right: 25px;width: 100px;">Cancelar</a><button class="btn btn-primary" type="submit" style="width: 100px;">Submeter</button></div>
                         </form>
                         <p>Composição da equipa (4-3-3)</p>
                         <div class="table-responsive">
@@ -126,7 +145,11 @@ if (isset($_GET["nome"])) {
 <script>
     $(document).ready(function() {
         $("#titularSelect").change(function() {
-            alert("there we go");
+            <<
+            << << < HEAD
+            alert("there we go"); ===
+            === = >>>
+            >>> > origin / achilles
             $("#serverAns").load("get_team_slots.php", {
                 position: $("#titularSelect").val(),
                 equipa: <?php echo '"' . $_GET["nome"] . '"' ?>

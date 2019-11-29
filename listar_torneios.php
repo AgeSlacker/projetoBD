@@ -2,10 +2,6 @@
 session_start();
 
 require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 ?>
 
@@ -17,6 +13,7 @@ if ($conn->connect_error) {
     <title>ListaTorneios</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body>
@@ -150,7 +147,6 @@ if ($conn->connect_error) {
                             "</td></tr>";
                     }
                     ?>
-
                     <tr>
                         <td>Cell 1</td>
                         <td>Cell 2</td>
