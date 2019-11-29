@@ -65,7 +65,7 @@ if (!empty($_POST)) {
 
         $sql = "UPDATE pessoa SET nome = '$nome', sobrenome = '$sobrenome', contacto = $cont, email = '$email', data_nasc = '$data'. 
             WHERE pessoa.cc = 14900002";
-
+    
     echo $sql;
 
     if (!$conn->query($sql)) {
