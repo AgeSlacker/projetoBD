@@ -1,9 +1,13 @@
 <?php
 session_start();
-if (!(isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
+
+echo print_r($_SESSION, true);
+
+if (!(isset($_SESSION['logged']) && ($_SESSION['logged'] == true))) {
     header('Location: index.php');
     exit();
 }
+
 ?>
 
 <?php require_once "connect.php";

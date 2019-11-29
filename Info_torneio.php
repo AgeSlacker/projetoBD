@@ -5,19 +5,29 @@ require_once "connect.php";
 if (isset($_GET["id"])) {
     // ir buscar os jogos planeados
     $id = $_GET["id"];
-    $sql = "SELECT slot_hora_inicio, equipa_nome , equipa_nome1 FROM jogo WHERE slot_torneio_id = $id";
+    $sql = "SELECT slot_hora_inicio, equipa_nome , equipa_nome1 
+            FROM jogo 
+            WHERE slot_torneio_id = $id";
     $jogosPlaneados = $conn->query($sql);
 
-    $sql = "SELECT e.nome, p.nome as capnome, p.sobrenome, count(pos.pessoa_cc) as num_jogadores
-            FROM pessoa as p, equipa as e 
-            LEFT JOIN posjogadorequipa as pos ON e.nome = pos.equipa_nome
+    // ir buscar o numero de vagas por cada equipa
+    $sql = "SELECT e.nome, p.nome AS capnome, p.sobrenome, count(pos.pessoa_cc) AS num_jogadores
+            FROM pessoa AS p, equipa AS e 
+            LEFT JOIN posjogadorequipa AS pos ON e.nome = pos.equipa_nome
             WHERE e.torneio_id = $id
             AND e.pessoa_cc = p.cc
             GROUP BY e.nome";
-
-
-    echo $sql;
     $equipasTorneio = $conn->query($sql);
+
+    // ir buscar os jogos passados e criar a tabela de resultados
+
+    $sql = "SELECT nome
+            FROM equipa";
+
+    $resultados = $conn->query($sql);
+} else {
+    header("Location: listar_torneios.php");
+    exit();
 };
 
 ?>
@@ -73,29 +83,6 @@ if (isset($_GET["id"])) {
                 </div>
             </div>
             <div class="col">
-                <p class="text-center">Jogos passados</p>
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Equipa</th>
-                                <th>J</th>
-                                <th>V</th>
-                                <th>SV</th>
-                                <th>GS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Cell 1</td>
-                                <td>Cell 2</td>
-                                <td>Cell 3</td>
-                                <td>Cell 4</td>
-                                <td>Cell 5</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
                 <p class="text-center">Equipas</p>
                 <div class="table-responsive">
                     <table class="table table-sm">
@@ -117,7 +104,7 @@ if (isset($_GET["id"])) {
                                 <td>" . (14 - $row["num_jogadores"]) . "</td>
                                 <td>" . $row["capnome"] . " " . $row["sobrenome"] . "</td>
                                 <td><a href='' class='btn btn-secondary btn-sm' role='button'>Info&nbsp;<i class='fa fa-long-arrow-right'></i></a></td>
-                                <td><a href='Inscricao_equipa.php?nome=$nome' class='btn btn-secondary btn-sm' role='button'>Inscrever</a></td>
+                                <td><a href='Inscricao_equipa.php?nome=$nome&tid=$id' class='btn btn-secondary btn-sm' role='button'>Inscrever</a></td>
                                 </tr>";
                             }
                             ?>
@@ -129,6 +116,47 @@ if (isset($_GET["id"])) {
                                 <td><button class="btn btn-secondary btn-sm" type="button">Info&nbsp;<i class="fa fa-long-arrow-right"></i></button></td>
                                 <td><button class="btn btn-secondary btn-sm" type="button">Inscrever</button></td>
                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p class="text-center">Jogos passados</p>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Equipa</th>
+                                <th>Jogos</th>
+                                <th>Vitorias</th>
+                                <th>Derrotas</th>
+                                <th>Pontos</th>
+                                <th>Golos Pro</th>
+                                <th>Golos Con</th>
+                                <th>Saldo</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // preencher os resultados das equipas
+                            while ($equipa = $resultados->fetch_assoc()) {
+                                $nome = $equipa["nome"];
+                                echo "<tr>
+                                    <td>$nome</td>
+                                    <td>Cell 2</td>
+                                    <td>Cell 3</td>
+                                    <td>Cell 4</td>
+                                    <td>Cell 5</td>
+                                    <td>Cell 7</td>
+                                    <td>Cell 8</td>
+                                    <td>Cell 9</td>
+                                    <td>Cell 9</td>
+                                </tr>";
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>

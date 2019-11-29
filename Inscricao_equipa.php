@@ -95,7 +95,7 @@ if (isset($_GET["nome"])) {
                             <div class="form-group">
                                 <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1" name="podeGuardaRedes"><label class="form-check-label" for="formCheck-1">Pode substituir Guarda redes</label></div>
                             </div>
-                            <div class="form-group text-center"><button class="btn btn-dark" type="button" style="margin-right: 25px;width: 100px;">Cancelar</button><button class="btn btn-primary" type="submit" style="width: 100px;">Submeter</button></div>
+                            <div class="form-group text-center"><a class="btn btn-dark" href="" style="margin-right: 25px;width: 100px;">Cancelar</a><button class="btn btn-primary" type="submit" style="width: 100px;">Submeter</button></div>
                         </form>
                         <p>Composição da equipa (4-3-3)</p>
                         <div class="table-responsive">
