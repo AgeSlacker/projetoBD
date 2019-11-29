@@ -7,10 +7,6 @@ if (!(isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
 ?>
 
 <?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if (isset($_GET['torneioid'])) {
     $torneioid = $_GET['torneioid'];
@@ -101,7 +97,7 @@ $list_slots = $conn->query($sql);
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body style="padding: 0px;">
+<body style="overflow-x:hidden;padding: 0px;">
     <?php require "top_navbar.php" ?>
     <div>
         <div class="container" style="width: 100%;max-width: 100%;min-width: 30%;">

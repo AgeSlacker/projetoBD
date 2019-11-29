@@ -7,10 +7,6 @@ if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
 ?>
 
 <?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 function get_password_by_id($cc, $conn)
 {
