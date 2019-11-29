@@ -1,16 +1,17 @@
 <?php
 session_start();
-if (!(isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
+
+echo print_r($_SESSION, true);
+
+if (!(isset($_SESSION['logged']) && ($_SESSION['logged'] == true))) {
     header('Location: index.php');
     exit();
 }
+
 ?>
 
 <?php require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
 
 if (isset($_GET['torneioid'])) {
     $torneioid = $_GET['torneioid'];
