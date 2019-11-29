@@ -10,6 +10,26 @@ if (isset($_GET['torneioid'])) {
     $torneioid = $_GET['torneioid'];
 }
 
+
+if (isset($_POST['criar'])) {
+    // //update do estado do torneio
+    // $sql = "UPDATE torneio
+    //         SET iniciado = 1
+    //         WHERE id = $torneioid";
+    // if (!$conn->query($sql)) {
+    //     echo mysqli_error($conn);
+    // }
+    // //criação dos jogos
+    // $sql = "SELECT DISTINCT GREATEST( b.nome, a.nome) as first, LEAST( b.nome, a.nome) as second FROM equipa a, equipa b
+    // WHERE a.nome <> b.nome
+    // ORDER BY first";
+    // if (!$conn->query($sql)) {
+    //     echo mysqli_error($conn);
+    // }
+}
+
+
+
 if (isset($_POST['aceitar'])) {
     $nomeaceite = $_POST['aceitar'];
     $sql = "UPDATE equipa
@@ -56,7 +76,7 @@ $sql = "SELECT equipa.nome as enome, pessoa.nome pnome
           FROM equipa, pessoa
           WHERE equipa.torneio_id = $torneioid
             AND equipa.pessoa_cc = pessoa.cc
-            AND equipa.aceite = 0
+            AND equipa.aceite <> 1
           ORDER BY equipa.nome";
 $list_pendentes = $conn->query($sql);
 
@@ -211,9 +231,9 @@ $list_slots = $conn->query($sql);
         </div>
     </div>
     <div class="row" style="margin-top: 60px;">
-        <div class="col text-center"><button class="btn btn-primary border-white" type="button" style="background-color: #000000;width: 315px;height: 60px;font-size: 33px;margin-top: 0px;">Criar Torneio</button></div>
+        <div class="col text-center"><button class="btn btn-primary border-white" type="button" name="criar" style="background-color: #000000;width: 315px;height: 60px;font-size: 33px;margin-top: 0px;">Criar Torneio</button></div>
     </div>
-    <div class="row" style="margin-top: 27px;">
+    <div class="row" style="margin-top: 27px; margin-bottom:20px;">
         <div class="col"><button class="btn btn-primary btn-lg border-white" type="button" style="width: 170px;margin-left: 53px;min-width: -8px;max-width: -10px;background-color: #a3081a;">Deletar Torneio</button></div>
     </div>
     <div class="footer-dark" style="background-color: rgb(0,0,0);">
