@@ -47,8 +47,10 @@ if (isset($_POST['criar'])) {
             }
         }
 
+        $cidade = (!empty($_POST['cidade'])) ? $_POST['cidade'] : "Sem Cidade Definida";
+
         if ($precheck == 1) {
-            $sql = "INSERT INTO torneio (iniciado, inicio, fim, cidade) VALUES (0, '$iniciostr', '$fimstr', 'test')";
+            $sql = "INSERT INTO torneio (iniciado, inicio, fim, cidade) VALUES (0, '$iniciostr', '$fimstr', '$cidade')";
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
@@ -204,8 +206,16 @@ if (isset($_POST['criar'])) {
         </div>
         <div>
             <div class="row">
-                <div class="col text-right"><a class="btn btn-dark" href="index.php" style="background-color: rgb(0,0,0);width: 159px;margin-bottom: 20px;margin-top: 80px;margin-right: 20px;">Cancelar &nbsp;&nbsp;<i class="fa fa-close"></i></a></div>
-                <div class="col"><button class="btn btn-dark" name="criar" type="submit" style="background-color: rgb(0,0,0);width: 159px;margin-top: 80px;margin-right: 20px;">Confirmar &nbsp;&nbsp;<i class="fa fa-check"></i>&nbsp;</button></div>
+                <div class="col">
+                    <p class="text-right" style="margin-top: 20px;">Defina a localidade do torneio:</p>
+                </div>
+                <div class="col"><input type="text" name="cidade" style="border: 2px solid #000000;outline:none;margin-top: 20px;"></div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col text-right"><a class="btn btn-dark" href="index.php" style="background-color: rgb(0,0,0);width: 159px;margin-bottom: 20px;margin-top: 20px;margin-right: 20px;">Cancelar &nbsp;&nbsp;<i class="fa fa-close"></i></a></div>
+                <div class="col"><button class="btn btn-dark" name="criar" type="submit" style="background-color: rgb(0,0,0);width: 159px;margin-top:20px;margin-right: 20px;">Confirmar &nbsp;&nbsp;<i class="fa fa-check"></i>&nbsp;</button></div>
             </div>
         </div>
     </form>
