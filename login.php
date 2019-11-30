@@ -7,11 +7,10 @@ if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
 }
 
 require_once "connect.php";
-
 function get_password_by_id($cc, $conn)
 {
     $cc = mysqli_real_escape_string($conn, $cc);
-    $sql = "SELECT password from pessoa where cc=$cc";
+    $sql = "SELECT password, banned from pessoa where cc=$cc";
     $result = $conn->query($sql);
     if (!$result) {
         echo mysqli_error($conn);
@@ -19,7 +18,16 @@ function get_password_by_id($cc, $conn)
     if (mysqli_num_rows($result) == 0) {
         return null;
     }
-    return ($result->fetch_assoc())["password"];
+
+    $result = $result->fetch_assoc();
+
+    // check if user is banned
+    if ($result["banned"] == 1) {
+        $_SESSION["banned_notify"] = true;
+        echo "<script>alert('This user is banned.')</script>";
+    }
+
+    return $result["password"];
 }
 
 function do_login($cc, $password, $conn)
