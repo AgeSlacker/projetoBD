@@ -4,7 +4,6 @@ session_start();
 require "force_login.php";
 require_once "connect.php";
 
-echo "<pre>" . print_r($_POST, true) . "</pre>";
 
 if (isset($_POST['cancelar'])) {
     //header('Location: index.php');
@@ -42,7 +41,6 @@ if (isset($_POST['criar'])) {
         $precheck = 1;
         for ($i = 0; $i < 7; $i++) {
             if ($diasemana[$i] && $horarios[$i] == -1) {
-                echo "VAI APRENDER A PREENCHER DIREITO";
                 $precheck = 0;
             }
         }
@@ -69,17 +67,10 @@ if (isset($_POST['criar'])) {
                     $sql = $sql . "('$hourinit', '', '$diaformat', $idtorneio)";
                 }
             }
-            echo "<pre>$sql</pre>";
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
         }
-
-
-        echo print_r($diasemana, true);
-        echo "<p>" . print_r($horarios, true) . "</p>";
-
-        echo "<p> primeiro dia selecionado : " . $test . "</p>";
     }
 }
 

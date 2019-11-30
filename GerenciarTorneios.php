@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-echo print_r($_SESSION, true);
-
 require "force_login.php";
 require_once "connect.php";
 
@@ -12,20 +10,49 @@ if (isset($_GET['torneioid'])) {
 
 
 if (isset($_POST['criar'])) {
-    // //update do estado do torneio
-    // $sql = "UPDATE torneio
-    //         SET iniciado = 1
-    //         WHERE id = $torneioid";
-    // if (!$conn->query($sql)) {
-    //     echo mysqli_error($conn);
-    // }
-    // //criação dos jogos
-    // $sql = "SELECT DISTINCT GREATEST( b.nome, a.nome) as first, LEAST( b.nome, a.nome) as second FROM equipa a, equipa b
-    // WHERE a.nome <> b.nome
-    // ORDER BY first";
-    // if (!$conn->query($sql)) {
-    //     echo mysqli_error($conn);
-    // }
+
+    //criação dos jogos
+    $sql = "SELECT DISTINCT GREATEST( b.nome, a.nome) as first, LEAST( b.nome, a.nome) as second 
+    FROM equipa a, equipa b 
+    WHERE a.nome <> b.nome 
+    AND a.aceite = 1 
+    AND b.aceite = 1 
+    ORDER BY first";
+    if (!($jogos = $conn->query($sql))) {
+        echo mysqli_error($conn);
+    }
+    $Njogos = $jogos->num_rows;
+
+    $sql = "SELECT count(*) as num
+    FROM slot
+    WHERE torneio_id = 1";
+    if (!($Nslots = $conn->query($sql))) {
+        echo mysqli_error($conn);
+    }
+    $Nslots = $Nslots->fetch_assoc();
+    $Nslots = $Nslots["num"];
+
+
+
+    if ($Nslots >= $Njogos) {
+        //update do estado do torneio
+        $sql = "UPDATE torneio
+            SET iniciado = 1
+            WHERE id = $torneioid";
+        if (!$conn->query($sql)) {
+            echo mysqli_error($conn);
+        }
+        $sql = "INSERT INTO jogo (id, golosa1, golosb1, golosa2, golosb2, slot_hora_inicio, slot_torneio_id, equipa_nome, equipa_nome1, campo_nome) VALUES";
+        $first = false;
+        while ($row = $jogos->fetch_assoc()) {
+            if ($first) {
+                $sql = $sql . ",";
+            } else {
+                $first = true;
+            }
+            $sql = $sql . "('1', NULL, NULL, NULL, NULL, '15:00:00', '2', 'Equipa B', 'ADAWED', 'Campo de Coimbra')";
+        }
+    }
 }
 
 
@@ -121,10 +148,10 @@ $list_slots = $conn->query($sql);
         <div class="container" style="width: 100%;max-width: 100%;min-width: 30%;">
             <div class="row">
                 <div class="col-md-12" style="margin: 0px;">
-                    <h1 style="font-size: 33px;font-style: normal;font-weight: normal;">Gerenciamento de Torneio</h1>
+                    <h1 style="font-size: 33px;margin-top:10px;font-style: normal;font-weight: normal;">Gerenciamento de Torneio</h1>
                 </div>
             </div>
-            <div class="row" style="margin-top: 72px;">
+            <div class="row" style="margin-top: 30px;">
                 <div class="col-md-4">
                     <div style="background-color: #000000;width: 100%;height: 41px;">
                         <p class="text-center text-sm-center text-md-center text-lg-center text-xl-center" style="color: rgb(255,255,255);padding: 5px;">Equipes Pendentes</p>
@@ -138,7 +165,7 @@ $list_slots = $conn->query($sql);
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody style="overflow-y: scroll">
+                            <tbody>
                                 <?php
                                 while ($row = $list_pendentes->fetch_assoc()) {
                                     echo "<tr><td>" . $row["enome"] . "</td>" .
@@ -231,7 +258,7 @@ $list_slots = $conn->query($sql);
         </div>
     </div>
     <div class="row" style="margin-top: 60px;">
-        <div class="col text-center"><button class="btn btn-primary border-white" type="button" name="criar" style="background-color: #000000;width: 315px;height: 60px;font-size: 33px;margin-top: 0px;">Criar Torneio</button></div>
+        <div class="col text-center"><button class="btn btn-primary border-white" type="button" name="criar" style="background-color: #000000;width: 315px;height: 60px;font-size: 33px;margin-top: 0px;">Iniciar Torneio</button></div>
     </div>
     <div class="row" style="margin-top: 27px; margin-bottom:20px;">
         <div class="col"><button class="btn btn-primary btn-lg border-white" type="button" style="width: 170px;margin-left: 53px;min-width: -8px;max-width: -10px;background-color: #a3081a;">Deletar Torneio</button></div>
