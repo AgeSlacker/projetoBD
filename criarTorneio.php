@@ -70,6 +70,11 @@ if (isset($_POST['criar'])) {
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
+            $pessoacc = $_SESSION['cc'];
+            $sql = "INSERT INTO torneio_gestor (torneio_id,pessoa_cc) VALUES ($idtorneio,$pessoacc)";
+            if (!$conn->query($sql)) {
+                echo mysqli_error($conn);
+            }
             header("Location: listar_torneios.php");
         }
     }
@@ -137,7 +142,7 @@ if (isset($_POST['criar'])) {
                                 <div style="margin-top:40px;">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" name="seg" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Segunda-Feira</label></div>
+                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="seg" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Segunda-Feira</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="horseg" type="time"></div>
                                     </div>
@@ -145,7 +150,7 @@ if (isset($_POST['criar'])) {
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" name="ter" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Terça-Feira</label></div>
+                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="ter" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Terça-Feira</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="horter" type="time"></div>
                                     </div>
@@ -153,7 +158,7 @@ if (isset($_POST['criar'])) {
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" name="qua" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Quarta-Feira</label></div>
+                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="qua" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Quarta-Feira</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="horqua" type="time"></div>
                                     </div>
@@ -161,7 +166,7 @@ if (isset($_POST['criar'])) {
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" name="qui" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Quinta-Feira</label></div>
+                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="qui" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Quinta-Feira</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="horqui" type="time"></div>
                                     </div>
@@ -169,7 +174,7 @@ if (isset($_POST['criar'])) {
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" name="sex" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Sexta-Feira</label></div>
+                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="sex" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Sexta-Feira</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="horsex" type="time"></div>
                                     </div>
@@ -177,7 +182,7 @@ if (isset($_POST['criar'])) {
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" name="sab" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Sabado</label></div>
+                                            <div class="form-check" style="margin-bottom: 10px;"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="sab" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Sabado</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="horsab" type="time"></div>
                                     </div>
@@ -185,7 +190,7 @@ if (isset($_POST['criar'])) {
                                 <div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-check"><input class="form-check-input" name="dom" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Domingo</label></div>
+                                            <div class="form-check"><input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" name="dom" type="checkbox" id="formCheck-1"><label class="form-check-label" style="margin-left:10px;" for="formCheck-1">Domingo</label></div>
                                         </div>
                                         <div class="col"><input class="border rounded-0 border-dark" name="hordom" type="time"></div>
                                     </div>
@@ -223,6 +228,8 @@ if (isset($_POST['criar'])) {
             minDate: "today"
         });
     </script>
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 </body>
 
 </html>

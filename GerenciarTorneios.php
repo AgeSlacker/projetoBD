@@ -13,13 +13,21 @@ $sql = "SELECT cidade
        where id = $torneioid";
 
 if (!($cidadetorneio = $conn->query($sql))) {
-    echo mysqli_error($conn);
+    //echo mysqli_error($conn);
 }
 $cidadetorneio = $cidadetorneio->fetch_assoc();
 //echo "<pre>" . $cidadetorneio["cidade"] . "</pre>";
 //echo "entrei";
 //echo "<pre>" . print_r($_POST, true) . "</pre>";
 
+if (isset($_POST['adicionarslot']) && !empty($_POST['datanova']) && !empty($_POST['horanova'])) {
+    $datanova = date("Y-m-d", strtotime($_POST['datanova']));
+    $horanova = $_POST['horanova'];
+    $sql = "INSERT INTO slot (hora_inicio, hora_fim, data_slot, torneio_id) VALUES ('$horanova', '', '$datanova', $torneioid)";
+    if (!($conn->query($sql))) {
+        //echo mysqli_error($conn);
+    }
+}
 
 if (isset($_POST['aceitar'])) {
     $nomeaceite = $_POST['aceitar'];
@@ -27,7 +35,7 @@ if (isset($_POST['aceitar'])) {
            SET aceite = 1
            WHERE equipa.nome = '$nomeaceite'";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
 }
 
@@ -39,7 +47,7 @@ if (isset($_POST['horadeletar'])) {
            AND slot.torneio_id = '$torneioid'
            AND slot.data_slot = '$dataexcluir'";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
 }
 
@@ -49,7 +57,7 @@ if (isset($_POST['excluir'])) {
     $sql = "DELETE FROM equipa
            WHERE equipa.nome = '$nomeexcluir'";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
 }
 
@@ -59,7 +67,7 @@ if (isset($_POST['retirar'])) {
            SET aceite = 0
            WHERE equipa.nome = '$nomeretirar'";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
 }
 
@@ -87,15 +95,6 @@ $sql = "SELECT hora_inicio ,data_slot, 'Sem campo' as semcampo
 $list_slots = $conn->query($sql);
 
 
-if (isset($_POST['adicionarslot']) && !empty($_POST['datanova']) && !empty($_POST['horanova'])) {
-    $datanova = date("Y-m-d", strtotime($_POST['datanova']));
-    $horanova = $_POST['horanova'];
-    $sql = "INSERT INTO slot (hora_inicio, hora_fim, data_slot, torneio_id) VALUES ('$horanova', '', '$datanova', $torneioid)";
-    if (!($conn->query($sql))) {
-        echo mysqli_error($conn);
-    }
-}
-
 
 $sql = "SELECT DISTINCT GREATEST( b.nome, a.nome) as first, LEAST( b.nome, a.nome) as second 
 FROM equipa a, equipa b 
@@ -106,7 +105,7 @@ AND a.torneio_id = $torneioid
 AND b.torneio_id = $torneioid
 ORDER BY first";
 if (!($jogos = $conn->query($sql))) {
-    echo mysqli_error($conn);
+    //echo mysqli_error($conn);
 }
 $Njogos = $jogos->num_rows;
 
@@ -115,14 +114,13 @@ FROM slot
 WHERE torneio_id = $torneioid
 ORDER BY data_slot";
 if (!($slots = $conn->query($sql))) {
-    echo mysqli_error($conn);
+    //echo mysqli_error($conn);
 }
 $Nslots = $slots->num_rows;
 $slotSuficientes = true;
 if ($Nslots < $Njogos) {
     $slotSuficientes = false;
 }
-echo $Njogos;
 if (isset($_POST['criar']) && $slotSuficientes) {
 
     //update do estado do torneio
@@ -130,7 +128,7 @@ if (isset($_POST['criar']) && $slotSuficientes) {
             SET iniciado = 1
             WHERE id = $torneioid";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
 
     //criação do jogo
@@ -151,8 +149,9 @@ if (isset($_POST['criar']) && $slotSuficientes) {
             $sql = $sql . "(NULL, NULL, NULL,NULL, '$hora_inicio','$data' , $torneioid, '$first' , '$second')";
         }
         if (!$conn->query($sql)) {
-            echo mysqli_error($conn);
+            //echo mysqli_error($conn);
         }
+        header("Location: index.php");
     } else {
         echo "<script>alert('Nao pode criar torneio sem jogos');</script>";
     }
@@ -163,17 +162,17 @@ if (isset($_POST['deletartorneio'])) {
     $sql = "DELETE FROM equipa 
     WHERE equipa.torneio_id = $torneioid";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
     $sql = "DELETE FROM slot 
     WHERE slot.torneio_id = $torneioid";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
     $sql = "DELETE FROM torneio 
     WHERE torneio.id = $torneioid";
     if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
+        //echo mysqli_error($conn);
     }
     header("Location: index.php");
 }

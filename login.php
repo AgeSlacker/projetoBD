@@ -77,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <?php require "top_navbar.php" ?>
+    <h1 style="margin-bottom:65px;;margin-top:50px;" align="center">Login</h1>
     <div id="loginform" class="container" style="max-width: 350px">
         <form method="post">
             <div class="form-group">
@@ -99,8 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 unset($_SESSION["wrongPassword"]);
                 ?>
             </div>
-            <div class="form-group text-center"><button class="btn btn-primary" type="submit">Login</button></div>
-            <div class="form-group text-center"><a href="register.php">Dont have an acoount? Click here to register</a></div>
+            <div class="form-group text-center"><button class="btn btn-dark" type="submit">Login</button></div>
+            <div class="form-group text-center" style="margin-bottom:100px;"><a href="register.php">Não tem uma conta? Clique aqui</a></div>
         </form>
     </div>
     <div class="footer-dark" style="background-color: rgb(0,0,0);">
