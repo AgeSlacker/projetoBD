@@ -21,14 +21,38 @@ if (isset($_GET["id"])) {
 
     // ir buscar os jogos passados e criar a tabela de resultados
 
-    $sql = "SELECT SUM(j) AS jogos, nome FROM ( SELECT nome, COUNT(equipa_nome) AS j
-                                                FROM equipa LEFT JOIN jogo ON nome = equipa_nome 
-                                                GROUP BY nome
-                                                UNION
-                                                SELECT nome, COUNT(equipa_nome1) AS j
-                                                FROM equipa LEFT JOIN jogo ON nome = equipa_nome1
-                                                GROUP BY nome) AS t
-            GROUP BY nome";
+    /*$sql = "SELECT
+	            nome,
+                COUNT(jogo.id) as jogos
+            FROM
+                equipa LEFT JOIN jogo
+                ON jogo.equipa_nome = equipa.nome 
+                OR jogo.equipa_nome1 = equipa.nome
+                WHERE jogo.slot_torneio_id = 0
+            GROUP BY nome
+            ORDER BY nome";*/
+    $sql = "SELECT nome, sum(jogos) as jogos, sum(vitorias) as vitorias
+    FROM (SELECT
+        nome,
+        COUNT(jogo.id) as jogos,
+        SUM(jogo.golosa1 > jogo.golosb1) as vitorias
+    FROM
+        equipa LEFT JOIN jogo
+        ON jogo.equipa_nome = equipa.nome 
+        WHERE jogo.slot_torneio_id = $id
+    GROUP BY nome
+    UNION
+    SELECT
+        nome,
+        COUNT(jogo.id) as jogos,
+        SUM(jogo.golosa1 < jogo.golosb1) as vitorias
+    FROM
+        equipa LEFT JOIN jogo
+        ON jogo.equipa_nome1 = equipa.nome 
+        WHERE jogo.slot_torneio_id = $id
+          GROUP BY nome
+    ) as temp
+        GROUP BY nome";
 
     $resultados = $conn->query($sql);
 } else {
@@ -151,12 +175,14 @@ if (isset($_GET["id"])) {
                             while ($equipa = $resultados->fetch_assoc()) {
                                 $nome = $equipa["nome"];
                                 $jogos = $equipa["jogos"];
+                                $vitorias = $equipa["vitorias"];
+                                $derrotas = $jogos - $vitorias; // TODO esta mal, temos que ir buscar à db porque empates
                                 echo "<tr>
                                     <td>$nome</td>
                                     <td>$jogos</td>
-                                    <td>Cell 3</td>
-                                    <td>Cell 4</td>
-                                    <td>Cell 5</td>
+                                    <td>$vitorias</td>
+                                    <td>$derrotas</td>
+                                    <td>Cell 6</td>
                                     <td>Cell 7</td>
                                     <td>Cell 8</td>
                                     <td>Cell 9</td>
