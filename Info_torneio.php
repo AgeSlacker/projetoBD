@@ -31,11 +31,20 @@ if (isset($_GET["id"])) {
                 WHERE jogo.slot_torneio_id = 0
             GROUP BY nome
             ORDER BY nome";*/
-    $sql = "SELECT nome, sum(jogos) as jogos, sum(vitorias) as vitorias
+    $sql = "SELECT nome,
+        COALESCE(SUM(jogos),0) as jogos,
+        COALESCE(SUM(vitorias),0) as vitorias,
+        COALESCE(SUM(empates),0) as empates,
+        COALESCE((SUM(vitorias) * 3 + SUM(empates) * 1),0) as pontos,
+        COALESCE(SUM(golosMarcados),0) as golosMarcados,
+        COALESCE(SUM(golosSofridos),0) as golosSofridos
     FROM (SELECT
         nome,
-        COUNT(jogo.id) as jogos,
-        SUM(jogo.golosa1 > jogo.golosb1) as vitorias
+        COUNT(jogo.golosa1) as jogos,
+        SUM(jogo.golosa1 > jogo.golosb1) as vitorias,
+        SUM(jogo.golosa1 = jogo.golosb2) as empates,
+        SUM(jogo.golosa1) as golosMarcados,
+        SUM(jogo.golosb1) as golosSofridos
     FROM
         equipa LEFT JOIN jogo
         ON jogo.equipa_nome = equipa.nome 
@@ -44,17 +53,24 @@ if (isset($_GET["id"])) {
     UNION
     SELECT
         nome,
-        COUNT(jogo.id) as jogos,
-        SUM(jogo.golosa1 < jogo.golosb1) as vitorias
+        COUNT(jogo.golosa1) as jogos,
+        SUM(jogo.golosa1 < jogo.golosb1) as vitorias,
+        SUM(jogo.golosa1 = jogo.golosb2) as empates,
+        SUM(jogo.golosb1) as golosMarcados,
+        SUM(jogo.golosa1) as golosSofridos
     FROM
         equipa LEFT JOIN jogo
         ON jogo.equipa_nome1 = equipa.nome 
         WHERE jogo.slot_torneio_id = $id
           GROUP BY nome
     ) as temp
-        GROUP BY nome";
+    GROUP BY nome  
+    ORDER BY `pontos`  DESC";
 
     $resultados = $conn->query($sql);
+    if (!$resultados) {
+        echo "<pre> ERRO <br> " . mysqli_error($conn) . "</pre>";
+    }
 } else {
     header("Location: listar_torneios.php");
     exit();
@@ -153,7 +169,7 @@ if (isset($_GET["id"])) {
         </div>
         <div class="row">
             <div class="col">
-                <p class="text-center">Jogos passados</p>
+                <p class="text-center">Tabela de resultados</p>
                 <div class="table-responsive">
                     <table class="table table-sm">
                         <thead>
@@ -161,32 +177,41 @@ if (isset($_GET["id"])) {
                                 <th>Equipa</th>
                                 <th>Jogos</th>
                                 <th>Vitorias</th>
+                                <th>Empates</th>
                                 <th>Derrotas</th>
                                 <th>Pontos</th>
-                                <th>Golos Pro</th>
-                                <th>Golos Con</th>
-                                <th>Saldo</th>
-                                <th>Class</th>
+                                <th>GM</th>
+                                <th>GS</th>
+                                <th>DG</th>
+                                <th>Posição</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             // preencher os resultados das equipas
+                            $pos = 0;
                             while ($equipa = $resultados->fetch_assoc()) {
+                                $pos++;
                                 $nome = $equipa["nome"];
                                 $jogos = $equipa["jogos"];
                                 $vitorias = $equipa["vitorias"];
-                                $derrotas = $jogos - $vitorias; // TODO esta mal, temos que ir buscar à db porque empates
+                                $empates = $equipa["empates"];
+                                $derrotas = $jogos - $vitorias - $empates;
+                                $pontos = $equipa["pontos"];
+                                $gm = $equipa["golosMarcados"];
+                                $gs = $equipa["golosSofridos"];
+                                $dg = $gm - $gs;
                                 echo "<tr>
                                     <td>$nome</td>
                                     <td>$jogos</td>
                                     <td>$vitorias</td>
+                                    <td>$empates</td>
                                     <td>$derrotas</td>
-                                    <td>Cell 6</td>
-                                    <td>Cell 7</td>
-                                    <td>Cell 8</td>
-                                    <td>Cell 9</td>
-                                    <td>Cell 9</td>
+                                    <td>$pontos</td>
+                                    <td>$gm</td>
+                                    <td>$gs</td>
+                                    <td>$dg</td>
+                                    <td>$pos</td>
                                 </tr>";
                             }
                             ?>
