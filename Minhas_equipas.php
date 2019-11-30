@@ -14,7 +14,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
     <link rel="stylesheet" href="assets/css/styles.css?h=d41d8cd98f00b204e9800998ecf8427e">
 </head>
 
-<body>
+<body style="overflow-x:hidden;">
     <?php require_once "top_navbar.php" ?>
     <div class="row">
         <div class="col">
@@ -63,7 +63,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
         </div>
     </div>
     <div class="row">
-        <div class="col-10 col-sm-5 col-md-4 col-lg-3 col-xl-3 offset-2 offset-sm-7 offset-md-8 offset-lg-8 offset-xl-8"><a class="btn btn-primary" type="button" href="minha_area.php" style="background-color: rgb(0,0,0);width: 100%;">Voltar</a></div>
+        <div class="col-10 col-sm-5 col-md-4 col-lg-3 col-xl-3 offset-2 offset-sm-7 offset-md-8 offset-lg-8 offset-xl-8"><a class="btn btn-primary" type="button" href="minha_area.php" style="margin-bottom:50px;margin-top:50px;background-color: rgb(0,0,0);width: 100%;">Voltar</a></div>
     </div>
     <?php require_once "footer.php" ?>
     <script src="assets/js/jquery.min.js?h=83e266cb1712b47c265f77a8f9e18451"></script>

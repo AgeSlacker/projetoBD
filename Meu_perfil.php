@@ -38,39 +38,27 @@ if (isset($_SESSION["cc"])) {
 
 <body style="overflow-x: hidden;">
     <?php require_once "top_navbar.php" ?>
-    <nav class="navbar navbar-dark navbar-expand-md bg-dark">
-        <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">First</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Second</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Third</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Fourth</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div>
+    <div style="margin-top:20px;margin-bottom:20px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-6"><img class="img-thumbnail img-fluid" src="assets/img/default-user.png" loading="auto">
                     <form>
-                        <input class="form-control" type="text" disabled="" value=" <?php
-                                                                                    echo $pessoa["nome"];
-                                                                                    ?>">
+                        <input class="form-control" type="text" style="margin-top:20px;" disabled="" value=" <?php
+                                                                                                                echo $pessoa["nome"];
+                                                                                                                ?>">
                     </form>
                 </div>
                 <div class="col-md-6 align-self-center">
                     <form>
                         <input class="form-control" type="email" value="<?php
-                                                                        echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;" disabled="">
-                        <input class="form-control" type="tel" value="<?php echo $pessoa["contacto"]; ?>" disabled="">
-                        <input class="form-control" type="date" value="<?php echo $pessoa["data_nasc"]; ?>" disabled="">
+                                                                        echo $pessoa["email"]; ?>" style="margin-bottom:20px;" disabled="">
+                        <input class="form-control" type="tel" value="<?php echo $pessoa["contacto"]; ?>" style="margin-bottom:20px;disabled="">
+                        <input class=" form-control" type="date" value="<?php echo $pessoa["data_nasc"]; ?>" style="margin-bottom:20px;disabled="">
 
-                        <a href="Editar_perfil.php?id=<?php echo $cc ?>">
-                            <button class="btn btn-primary" type="button">Editar</button>
+                        <a href=" Editar_perfil.php?id=<?php echo $cc ?>">
+                        <button class="btn btn-dark" type="button">Editar</button>
                         </a>
-                        <button class="btn btn-primary" type="button">Regressar</button>
+                        <button class="btn btn-dark" type="button">Regressar</button>
                     </form>
                 </div>
             </div>
