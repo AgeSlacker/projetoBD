@@ -94,19 +94,19 @@ $pessoa = $result->fetch_assoc();
                 <div class="row">
                     <div class="col-md-6">
                         <img class="img-thumbnail img-fluid" src="assets/img/default-user.png" style="margin-top:20px;margin-bottom:20px;" loading=" auto" width="400">
-                        <input class="form-control" type="text" placeholder="Nome" name="nome" style="margin-bottom:20px; value=" <?php
+                        <input class="form-control" type="text" placeholder="Nome" name="nome" style="margin-bottom:20px;" value=" <?php
                                                                                                                                     echo $pessoa["nome"];
                                                                                                                                     ?>">
-                        <input class="form-control" type="text" placeholder="Sobrenome" style="margin-bottom:20px; name=" sobrenome" value="<?php echo $pessoa["sobrenome"]; ?>">
+                        <input class="form-control" type="text" placeholder="Sobrenome" style="margin-bottom:20px;" name=" sobrenome" value="<?php echo $pessoa["sobrenome"]; ?>">
                     </div>
                     <div class="col-md-6 align-self-center">
-                        <input class="form-control" style="margin-bottom:20px; type=" email" placeholder="Email" name="email" value="<?php echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;">
-                        <input class="form-control" style="margin-bottom:20px; type=" tel" placeholder="contacto" name="contacto" value="<?php echo $pessoa["contacto"]; ?>">
-                        <input class="form-control" style="margin-bottom:20px; type=" date" name="data" placeholder="dd-mm-aaaa" value="<?php echo $pessoa["data_nasc"]; ?>">
-                        <input class="form-control" style="margin-bottom:20px; type=" password" placeholder="password atual" name="password">
-                        <input class="form-control" style="margin-bottom:20px; type=" password" placeholder="password nova" name="password_nova">
-                        <input class="form-control" style="margin-bottom:20px; type=" password" placeholder="password nova repetida" name="password_nova_rep">
-                        <input class="form-control" style="margin-bottom:20px; type=" text" placeholder="Descrição">
+                        <input class="form-control" style="margin-bottom:20px;" type=" email" placeholder="Email" name="email" value="<?php echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;">
+                        <input class="form-control" style="margin-bottom:20px;" type=" tel" placeholder="contacto" name="contacto" value="<?php echo $pessoa["contacto"]; ?>">
+                        <input class="form-control" style="margin-bottom:20px;" type=" date" name="data" placeholder="dd-mm-aaaa" value="<?php echo $pessoa["data_nasc"]; ?>">
+                        <input class="form-control" style="margin-bottom:20px;" type=" password" placeholder="password atual" name="password">
+                        <input class="form-control" style="margin-bottom:20px;" type=" password" placeholder="password nova" name="password_nova">
+                        <input class="form-control" style="margin-bottom:20px;" type=" password" placeholder="password nova repetida" name="password_nova_rep">
+                        <input class="form-control" style="margin-bottom:20px;" type=" text" placeholder="Descrição">
                         <a href="Meu_perfil.php?id=14900002">
                             <button class="btn btn-dark" type="submit">Guardar</button>
                         </a>
