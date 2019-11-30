@@ -232,7 +232,7 @@ if (isset($_GET["id"])) {
             }
             $iniciado = $iniciado->fetch_assoc();
 
-            if ($torn = $tid && $iniciado["iniciado"] != 1) {
+            if ($torn == $tid && $iniciado["iniciado"] != 1) {
                 echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='GerenciarTorneios.php?torneioid=" . $tid . "'>Gerenciar Torneio</a>";
             }
         }
