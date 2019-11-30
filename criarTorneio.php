@@ -53,7 +53,7 @@ if (isset($_POST['criar'])) {
                 echo mysqli_error($conn);
             }
             $idtorneio = $conn->insert_id;
-            $sql = "INSERT INTO slot (hora_inicio, hora_fim, data, torneio_id) VALUES";
+            $sql = "INSERT INTO slot (hora_inicio, hora_fim, data_slot, torneio_id) VALUES";
             $first = false;
             foreach ($datas as $dia) {
                 if ($diasemana[$dia->format('w')]) {

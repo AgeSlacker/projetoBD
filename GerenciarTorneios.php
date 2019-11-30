@@ -23,7 +23,7 @@ $cidadetorneio = $cidadetorneio->fetch_assoc();
 if (isset($_POST['adicionarslot']) && !empty($_POST['datanova']) && !empty($_POST['horanova'])) {
     $datanova = date("Y-m-d", strtotime($_POST['datanova']));
     $horanova = $_POST['horanova'];
-    $sql = "INSERT INTO slot (hora_inicio, hora_fim, data, torneio_id) VALUES ('$horanova', '', '$datanova', $torneioid)";
+    $sql = "INSERT INTO slot (hora_inicio, hora_fim, data_slot, torneio_id) VALUES ('$horanova', '', '$datanova', $torneioid)";
     if (!($conn->query($sql))) {
         echo mysqli_error($conn);
     }
@@ -44,16 +44,15 @@ $Njogos = $jogos->num_rows;
 $sql = "SELECT *
 FROM slot
 WHERE torneio_id = $torneioid
-ORDER BY data";
+ORDER BY data_slot";
 if (!($slots = $conn->query($sql))) {
     echo mysqli_error($conn);
 }
 $Nslots = $slots->num_rows;
 
-if ($Nslots >= $Njogos) {
+$slotSuficientes = true;
+if ($Nslots < $Njogos) {
     $slotSuficientes = true;
-} else {
-    $slotSuficientes = false;
 }
 
 if (isset($_POST['criar']) && $slotSuficientes) {
@@ -66,7 +65,8 @@ if (isset($_POST['criar']) && $slotSuficientes) {
         echo mysqli_error($conn);
     }
 
-    $sql = "INSERT INTO jogo (golosa1, golosb1, golosa2, golosb2, slot_hora_inicio, slot_torneio_id, equipa_nome, equipa_nome1) VALUES ";
+    //criação do jogo
+    $sql = "INSERT INTO jogo (golosa1, golosb1, golosa2, golosb2, slot_hora_inicio,slot_data, slot_torneio_id, equipa_nome, equipa_nome1) VALUES ";
     $first = false;
     while ($row = $jogos->fetch_assoc()) {
         $usingSlot = $slots->fetch_assoc();
@@ -75,15 +75,21 @@ if (isset($_POST['criar']) && $slotSuficientes) {
         } else {
             $first = true;
         }
-        $data = $usingSlot["data"];
+        $data = $usingSlot["data_slot"];
         $hora_inicio = $usingSlot["hora_inicio"];
         $first = $row["first"];
         $second = $row["second"];
-        $sql = $sql . "(NULL, NULL, NULL,NULL, '$hora_inicio' , $torneioid, '$first' , '$second')";
+        $sql = $sql . "(NULL, NULL, NULL,NULL, '$hora_inicio','$data' , $torneioid, '$first' , '$second')";
     }
     if (!$conn->query($sql)) {
         echo mysqli_error($conn);
     }
+
+    //deletar slots nao utilizados
+
+
+
+
 }
 
 
@@ -97,11 +103,13 @@ if (isset($_POST['aceitar'])) {
     }
 }
 
-if (isset($_POST['deleteslot'])) {
-    $horaexcluir = $_POST['deleteslot'];
+if (isset($_POST['horadeletar'])) {
+    $horaexcluir = $_POST['horadeletar'];
+    $dataexcluir = $_POST['datadeletar'];
     $sql = "DELETE FROM slot
            WHERE hora_inicio = '$horaexcluir'
-           AND slot.torneio_id = '$torneioid'";
+           AND slot.torneio_id = '$torneioid'
+           AND slot.data_slot = '$dataexcluir'";
     if (!$conn->query($sql)) {
         echo mysqli_error($conn);
     }
@@ -145,7 +153,7 @@ $sql = "SELECT equipa.nome as enome, pessoa.nome as pnome
           ORDER BY equipa.nome";
 $list_confirmadas = $conn->query($sql);
 // 'Sem Campo' as semcampo
-$sql = "SELECT hora_inicio ,data, 'Sem campo' as semcampo
+$sql = "SELECT hora_inicio ,data_slot, 'Sem campo' as semcampo
           FROM slot
           WHERE slot.torneio_id = $torneioid ";
 $list_slots = $conn->query($sql);
@@ -249,7 +257,7 @@ $list_slots = $conn->query($sql);
                     </div>
                     <div class="col-md-4">
                         <div style="background-color: #000000;width: 100%;height: 41px;">
-                            <p class="text-center text-sm-center text-md-center text-lg-center text-xl-center" style="color: rgb(255,255,255);padding: 5px;">Jogos</p>
+                            <p class="text-center text-sm-center text-md-center text-lg-center text-xl-center" style="color: rgb(255,255,255);padding: 5px;">Slots de Jogo</p>
                         </div>
                         <div class="table-responsive border rounded-0">
                             <table class="table">
@@ -264,11 +272,12 @@ $list_slots = $conn->query($sql);
                                     <tr>
                                         <?php
                                         while ($row = $list_slots->fetch_assoc()) {
-                                            echo "<tr><td>" . $row["data"] . "</td>" .
+                                            echo "<tr><td>" . $row["data_slot"] . "</td>" .
                                                 "<td>" . $cidadetorneio["cidade"] . "</td>" .
                                                 "<td>
+                                                <input hidden value = " . $row["data_slot"] . " name='datadeletar'>
           <div class='row' style='width: 100%;'>
-              <div class='col' style='width: 100%;'><button type='submit' name='deleteslot' value = '" . $row["hora_inicio"] . "' class='btn btn-primary btn-sm text-center border-white' type='button' style='height: 26px;background-color: #a3081a;'>Excluir</button></div>
+              <div class='col' style='width: 100%;'><button type='submit' name='horadeletar' value = '" . $row["hora_inicio"] . "' class='btn btn-primary btn-sm text-center border-white' type='button' style='height: 26px;background-color: #a3081a;'>Excluir</button></div>
           </div>
     </td>
 </tr>";
@@ -280,7 +289,7 @@ $list_slots = $conn->query($sql);
                         </div>
                         <?php if (!$slotSuficientes) {
                             $falta = $Njogos - $Nslots;
-                            echo "<p style='margin-top:5px;border:dotted;color:#a3081a;font-size:20px;'align='center'>Numero de slots insuficientes, adicione mais: " . $falta . " slots</p>";
+                            echo "<p style='margin-top:5px;border:dotted;color:#a3081a;font-size:20px;'align='center'>Numero de slots insuficientespara que cada equipe jogue uma vez contra a outra, adicione mais: " . $falta . " slots</p>";
                         } ?>
                         <div>
                             <div style="margin-top:15px;border:solid 2px #000000;">
