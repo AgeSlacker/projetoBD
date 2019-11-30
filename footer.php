@@ -3,27 +3,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 col-md-3 item">
-                    <h3>Services</h3>
+                    <h3>Contacto</h3>
                     <ul>
-                        <li><a href="#">Web design</a></li>
-                        <li><a href="#">Development</a></li>
-                        <li><a href="#">Hosting</a></li>
+                        <li><a href="#">DBola@DBola.com</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6 col-md-3 item">
-                    <h3>About</h3>
+                    <h3>Sobre</h3>
                     <ul>
-                        <li><a href="#">Company</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Careers</a></li>
+                        <li><a href="About.php">Sobre/Ajuda</a></li>
                     </ul>
                 </div>
                 <div class="col-md-6 item text">
-                    <h3>Company Name</h3>
-                    <p>Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique lectus. Aliquam in arcu eget velit pulvinar dictum vel in justo.</p>
+                    <h3>DBola</h3>
+                    <p>Somos uma organização que visa facilitar o contato entre amantes do futebol. De forma a ajudar na criação de torneios independentes de maneira dinâmica,facil e rápida. </p>
                 </div>
             </div>
-            <p class="copyright">Company Name © 2017</p>
+            <p class="copyright">DBola © 2019</p>
         </div>
     </footer>
 </div>
