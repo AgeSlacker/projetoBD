@@ -124,17 +124,6 @@ if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
                     // Modo gestor, pode alterar a composicao da equipa
                     $num = 0;
                     while ($jogador = $jogadores->fetch_assoc()) {
-                        $tit = ($jogador["titular"] == 1) ? "SIM" : "NÃO";
-                        $sup = ($jogador["sup"] == 1) ? "SIM" : "NÃO";
-                        echo "
-                                            <tr>
-                                                <td>$tit</td>
-                                                <td>" . $jogador["ordem"] . "</td>
-                                                <td>" . $jogador["pos"] . "</td>
-                                                <td>" . $jogador["nome"] . "</td>
-                                                <td>$sup</td>
-                                            </tr>
-                                            ";
                         $tit = ($jogador["titular"] == 1) ? "checked" : "";
                         $sup = ($jogador["sup"] == 1) ? "checked" : "";
                         $nome_jogador = $jogador["nome"];
