@@ -36,7 +36,9 @@
                 <?php
 
                 if (isset($_SESSION["logged"]) && $_SESSION["logged"] == true) {
-                    echo '<li class="nav-item" role="presentation"><a class="nav-link" href="logout.php" style="color: rgb(255,255,255);">Logout</a></li>';
+                    echo '
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="minha_area.php" style="color: rgb(255,255,255);">Minha area</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="logout.php" style="color: rgb(255,255,255);">Logout</a></li>';
                 } else {
                     echo
                         '<li class="nav-item" role="presentation"><a class="nav-link" href="login.php" style="color: rgb(255,255,255);">Login</a></li>

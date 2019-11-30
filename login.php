@@ -48,7 +48,7 @@ function do_login($cc, $password, $conn)
             $_SESSION["cc"] = $cc;
             unset($_SESSION["wrongPassword"]);
             unset($_SESSION["noUser"]);
-            header('Location: index.php');
+            header('Location: minha_area.php');
             exit();
         }
     }
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <h1 style="margin-bottom:65px;;margin-top:50px;" align="center">Login</h1>
     <div id="loginform" class="container" style="max-width: 350px">

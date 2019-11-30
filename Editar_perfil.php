@@ -2,13 +2,8 @@
 session_start();
 require "force_login.php";
 require_once "connect.php";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
-
-
+$cc = $_SESSION["cc"];
 //conecção feita
 if (!empty($_POST)) {
 
@@ -38,7 +33,7 @@ if (!empty($_POST)) {
         // escrever erro
     }
     $password = $_POST["password"];
-    $sql = "SELECT password from pessoa where cc=14900002";
+    $sql = "SELECT password from pessoa where cc=$cc";
     $result = $conn->query($sql);
     if ($result = $result->fetch_assoc()) {
         //obteve user co esta passe 
@@ -56,21 +51,20 @@ if (!empty($_POST)) {
     }
     $password_nova_rep = $_POST["password_nova_rep"];
 
-    if (password_an)
 
-        $sql = "UPDATE pessoa SET nome = '$nome', sobrenome = '$sobrenome', contacto = $cont, email = '$email', data_nasc = '$data'. 
-            WHERE pessoa.cc = 14900002";
+    $sql = "UPDATE pessoa SET nome = '$nome', sobrenome = '$sobrenome', contacto = $cont, email = '$email', data_nasc = '$data' 
+            WHERE pessoa.cc = $cc";
 
-    echo $sql;
+    //echo $sql;
 
     if (!$conn->query($sql)) {
         echo mysqli_error($conn);
     }
 }
 
-$sql = "SELECT cc,nome,sobrenome,contacto,email,data_nasc from pessoa where cc=14900002";
+$sql = "SELECT cc,nome,sobrenome,contacto,email,data_nasc from pessoa where cc=$cc";
 
-echo $sql;
+//echo $sql;
 
 $result = $conn->query($sql);
 if ($result->num_rows < 1) {
@@ -92,19 +86,8 @@ $pessoa = $result->fetch_assoc();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-    <nav class="navbar navbar-dark navbar-expand-md bg-dark">
-        <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="#">First</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Second</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Third</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="#">Fourth</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<body style="overflow-x: hidden;">
+    <?php require_once "top_navbar.php" ?>
     <div class="text-center">
         <form method="post">
             <div class="container">
@@ -135,6 +118,7 @@ $pessoa = $result->fetch_assoc();
             </div>
         </form>
     </div>
+    <?php require_once "footer.php" ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </body>

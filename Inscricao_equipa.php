@@ -13,7 +13,7 @@ $posValida = true;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Inscrever o jogador na equipa
     if (!empty($_POST["titularSelect"])) {
-        echo '<pre>' . print_r($_POST, TRUE) . '</pre>';
+        //echo '<pre>' . print_r($_POST, TRUE) . '</pre>';
         $cc = $_SESSION["cc"];
         $equipaNome = $_POST["equipaNome"]; // TODO check if set
         $gr = (isset($_POST["podeGuardaRedes"]) && $_POST["podeGuardaRedes"] == "on") ? 1 : 0;
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // TODO check if exists, titular, check saldo ?
         $sql = "INSERT INTO posjogadorequipa (titular, posicao, suplenteguardaredes, convocavel, ordem, equipa_nome, pessoa_cc) 
             VALUES (0, '$pos', $gr, 1, 3, '$equipaNome', $cc);";
-        echo $sql;
+        //echo $sql;
         if (!$conn->query($sql)) {
             echo mysqli_error($conn);
         }
@@ -64,7 +64,7 @@ if (isset($_GET["nome"])) {
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <div>
         <div class="container">

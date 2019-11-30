@@ -8,7 +8,7 @@ if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
 
 require_once "connect.php";
 
-echo print_r($_POST, true);
+//echo print_r($_POST, true);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!$error) {
             $sql = "INSERT INTO pessoa (cc, nome, sobrenome, contacto, email, password, data_nasc, profile_photo, saldo) 
                     VALUES ($cc, '$name', '', $number, '$email' , '$password' , '0000-00-00', NULL, '0')";
-            echo $sql;
+            //echo $sql;
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <h1 style="margin-bottom:40px;margin-top:45px;" align="center">Register</h1>
     <div id="registerform" class="container" style="max-width: 350px">

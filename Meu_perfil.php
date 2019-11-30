@@ -3,15 +3,15 @@ session_start();
 require "force_login.php";
 require_once "connect.php";
 
-$id;
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
+$cc;
+if (isset($_SESSION["cc"])) {
+    $cc = $_SESSION["cc"];
 
     $sql = "SELECT cc,nome,sobrenome,contacto,email,data_nasc,profile_photo,saldo 
             FROM pessoa 
-            WHERE cc=$id";
+            WHERE cc=$cc";
 
-    echo $sql;
+    //echo $sql;
 
     $result = $conn->query($sql);
     if ($result->num_rows < 1) {
@@ -36,7 +36,8 @@ if (isset($_GET["id"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
+    <?php require_once "top_navbar.php" ?>
     <nav class="navbar navbar-dark navbar-expand-md bg-dark">
         <div class="container-fluid"><a class="navbar-brand" href="#">Logo</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
@@ -65,8 +66,8 @@ if (isset($_GET["id"])) {
                                                                         echo $pessoa["email"]; ?>" style="margin: 0px;margin-bottom: 0px;" disabled="">
                         <input class="form-control" type="tel" value="<?php echo $pessoa["contacto"]; ?>" disabled="">
                         <input class="form-control" type="date" value="<?php echo $pessoa["data_nasc"]; ?>" disabled="">
-                        <input class="form-control" type="text" placeholder="temos de alterar isto" disabled="">
-                        <a href="Editar_perfil.php?id=<?php echo $id ?>">
+
+                        <a href="Editar_perfil.php?id=<?php echo $cc ?>">
                             <button class="btn btn-primary" type="button">Editar</button>
                         </a>
                         <button class="btn btn-primary" type="button">Regressar</button>
@@ -75,6 +76,7 @@ if (isset($_GET["id"])) {
             </div>
         </div>
     </div>
+    <?php require_once "footer.php" ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </body>

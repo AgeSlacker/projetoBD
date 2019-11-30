@@ -46,7 +46,7 @@ if (!$pessoas) {
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <div class="container" style="max-width: 500px;">
         <div class="jumbotron">

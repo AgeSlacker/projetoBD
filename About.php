@@ -10,7 +10,7 @@
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <div class="row" style="margin: 0px;margin-top: 50px;margin-bottom:50px;">
         <div class="col d-flex d-md-flex justify-content-center justify-content-md-center">

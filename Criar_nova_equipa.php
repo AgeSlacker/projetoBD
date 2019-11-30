@@ -9,7 +9,7 @@ if (isset($_GET["id"])) {
     if (!empty($_POST["nome"])) {
         $nome = mysqli_real_escape_string($conn, $_POST["nome"]);
         $pessoa_cc = $_SESSION["cc"];
-        echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
+        //echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
         // TODO verificar se ja existe equipa assim, se o torneio nao est+a iniciado
         $sql = "INSERT INTO equipa (nome, composicao, pessoa_cc, torneio_id) 
                 VALUES ('$nome', NULL, $pessoa_cc, $id)";
@@ -35,7 +35,7 @@ if (isset($_GET["id"])) {
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <div>
         <div class="container">

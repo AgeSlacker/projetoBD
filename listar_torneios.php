@@ -14,7 +14,7 @@ require_once "connect.php";
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <div>
         <form method="post">
@@ -27,27 +27,25 @@ require_once "connect.php";
             </div>
             <div class="row">
                 <div class="col">
-                    <input type="search" name="torneioId" placeholder="Nome do torneio"></div>
+                    <input type="search" name="torneioId" placeholder="Nome do torneio" style="border: 2px solid #000000;outline:none;"></div>
                 <div class="col">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="iniciado" id="formCheck-1" <?php if (!empty($_POST["iniciado"])) {
-                                                                                                                echo " checked ";
-                                                                                                            } ?>>
-                        <label class="form-check-label" for="formCheck-1">A decorrer</label></div>
-                    <div class="form-check"><input class="form-check-input" name="vagas" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Equipa com vagas</label>
-                    </div>
+                        <input class="form-check-input" data-toggle="toggle" data-onstyle="outline-dark" data-offstyle="outline-danger" data-size="xs" type="checkbox" name="iniciado" id="formCheck-1" <?php if (!empty($_POST["iniciado"])) {
+                                                                                                                                                                                                            echo " checked ";
+                                                                                                                                                                                                        } ?>>
+                        <label class="form-check-label" for="formCheck-1">Só a decorrer</label></div>
                 </div>
-                <div class="col"><label>Data de inicio</label><input type="date" name="startDate" <?php
-                                                                                                    if (!empty($_POST["startDate"])) {
-                                                                                                        echo " value='" . $_POST["startDate"] . "' ";
-                                                                                                    }
-                                                                                                    ?>></div>
-                <div class="col"><label>Data final</label><input type="date" name="endDate" <?php
-                                                                                            if (!empty($_POST["endDate"])) {
-                                                                                                echo " value='" . $_POST["endDate"] . "' ";
-                                                                                            }
+                <div class="col"><label>Data de inicio</label><input type="date" name="startDate" style="border: 2px solid #000000;outline:none;" <?php
+                                                                                                                                                    if (!empty($_POST["startDate"])) {
+                                                                                                                                                        echo " value='" . $_POST["startDate"] . "' ";
+                                                                                                                                                    }
+                                                                                                                                                    ?>></div>
+                <div class="col"><label>Data final</label><input type="date" name="endDate" style="border: 2px solid #000000;outline:none;" <?php
+                                                                                                                                            if (!empty($_POST["endDate"])) {
+                                                                                                                                                echo " value='" . $_POST["endDate"] . "' ";
+                                                                                                                                            }
 
-                                                                                            ?>></div>
+                                                                                                                                            ?>></div>
                 <div class="col">
                     <select class="form-control" name="cidade">
                         <option>Qualquer</option>
@@ -67,19 +65,17 @@ require_once "connect.php";
                     </select>
                 </div>
                 <div class="col">
-                    <button class="btn btn-primary" type="submit">Search</button></div>
+                    <button class="btn btn-dark" type="submit">Search</button></div>
             </div>
         </form>
-        <div class="table-responsive">
+        <div class="table-responsive container" style="max-width: 850px;">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Torneio ID</th>
                         <th>A decorrer</th>
                         <th>Data de inicio</th>
                         <th>Data final</th>
                         <th>Cidade</th>
-                        <th>Equipa com vagas</th>
                         <th>Info</th>
                     </tr>
                 </thead>
@@ -129,31 +125,22 @@ require_once "connect.php";
                         }
                     }
 
-                    echo $sql;
+                    //echo $sql;
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         $id = $row["id"];
-                        echo "<tr><td>" . $row["id"] . "</td>" .
-                            "<td>" . $row["iniciado"] . "</td>" .
+                        $iniciado = $row["iniciado"] == 1 ? "SIM" : "NÃO";
+                        echo "<tr>" .
+                            "<td>$iniciado</td>" .
                             "<td>" . $row["inicio"] . "</td>" .
                             "<td>" . $row["fim"] . "</td>" .
                             "<td>" . $row["cidade"] . "</td>" .
-                            "<td></td>" .
                             "<td>" .
                             "<a href='Info_torneio.php?id=$id' class='btn btn-info' role='button'>Info</a>" .
                             "</td></tr>";
                     }
                     ?>
-                    <tr>
-                        <td>Cell 1</td>
-                        <td>Cell 2</td>
-                        <td>Cell 3</td>
-                        <td>Cell 4</td>
-                        <td>Cell 5</td>
-                        <td>Cell 6</td>
-                        <td>Cell 7</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -164,7 +151,8 @@ require_once "connect.php";
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 </body>
 

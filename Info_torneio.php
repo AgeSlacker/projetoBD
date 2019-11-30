@@ -5,7 +5,7 @@ require_once "connect.php";
 if (isset($_GET["id"])) {
     // ir buscar os jogos planeados
     $id = $_GET["id"];
-    $sql = "SELECT slot_hora_inicio, equipa_nome , equipa_nome1 
+    $sql = "SELECT slot_hora_inicio, slot_data, equipa_nome , equipa_nome1 
             FROM jogo 
             WHERE slot_torneio_id = $id";
     $jogosPlaneados = $conn->query($sql);
@@ -91,7 +91,7 @@ if (isset($_GET["id"])) {
     <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <div class="container">
         <div class="row">
@@ -112,18 +112,14 @@ if (isset($_GET["id"])) {
                                 $equipaA = $row["equipa_nome"];
                                 $equipaB = $row["equipa_nome1"];
                                 $hora = $row["slot_hora_inicio"];
+                                $data = $row["slot_data"];
                                 echo "<tr>
-                                <td>$hora</td>
+                                <td>$data $hora</td>
                                 <td>$equipaA</td>
                                 <td>$equipaB</td>
                                 </tr>";
                             }
                             ?>
-                            <tr>
-                                <td>Cell 1</td>
-                                <td>Cell 2</td>
-                                <td>Cell 3</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

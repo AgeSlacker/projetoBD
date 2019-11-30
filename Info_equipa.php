@@ -4,7 +4,7 @@ require "force_login.php";
 require "connect.php";
 
 
-echo print_r($_POST, true);
+//echo print_r($_POST, true);
 
 if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
     $nome = mysqli_real_escape_string($conn, $_GET["nome"]);
@@ -42,7 +42,7 @@ if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
         echo mysqli_error($conn);
     }
     $result = $result->fetch_assoc();
-    echo print_r($result, true);
+    //echo print_r($result, true);
     $capitao = $result["pnome"] . " " . $result["sobrenome"];
     $composicao = $result["composicao"];
     // Ir buscar os jogadores da equipa
@@ -70,8 +70,21 @@ if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
                         suplenteguardaredes = $upSup
                         WHERE p.pessoa_cc = $cc
                         ";
-            echo $sql;
+            //echo $sql;
+            $result = $conn->query($sql);
+            if (!$result) {
+                mysqli_error($conn);
+            }
         }
+        // Renovar os jogadores
+        $sql = "SELECT titular, posicao as pos, suplenteguardaredes as sup, ordem, nome, cc
+        FROM posjogadorequipa LEFT JOIN pessoa ON pessoa.cc = pessoa_cc
+        WHERE equipa_nome = '$nome'";
+        $result = $conn->query($sql);
+        if (!$result) {
+            echo mysqli_error($conn);
+        }
+        $jogadores = $result;
     }
 } else {
     header("Location: listar_torneios.php");
@@ -91,7 +104,7 @@ if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <?php require "top_navbar.php" ?>
     <h1><?php echo $nome; ?></h1>
     <p class="text-center"><?php echo "Capitão: $capitao Composição: $composicao"; ?></p>
@@ -129,6 +142,7 @@ if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
                         $nome_jogador = $jogador["nome"];
                         $ord = $jogador["ordem"];
                         $cc = $jogador["cc"];
+                        $pos = $jogador["pos"];
                         echo "
                         <tr> 
                             <td><input type='checkbox' $tit name='isTit$num'/></td>
@@ -137,6 +151,7 @@ if (!empty($_GET["nome"]) && !empty($_GET["tid"])) {
                             <td>
                                 <select class='form-control' name='newPos$num'>
                                     <optgroup label='Nova posição'>
+                                    <option style='color:green'>$pos</option>
                                     <option>Avançado</option>
                                     <option>Médio</option>
                                     <option>Defesa</option>
