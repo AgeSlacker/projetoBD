@@ -226,7 +226,13 @@ if (isset($_GET["id"])) {
                 echo mysqli_error($conn);
             }
             $torn = $torn->fetch_assoc();
-            if ($torn = $tid) {
+            $sql = "SELECT iniciado FROM torneio WHERE torneio.id = $tid";
+            if (!$iniciado = $conn->query($sql)) {
+                echo mysqli_error($conn);
+            }
+            $iniciado = $iniciado->fetch_assoc();
+
+            if ($torn = $tid && $iniciado["iniciado"] != 1) {
                 echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='GerenciarTorneios.php?torneioid=" . $tid . "'>Gerenciar Torneio</a>";
             }
         }
