@@ -20,78 +20,6 @@ $cidadetorneio = $cidadetorneio->fetch_assoc();
 //echo "entrei";
 //echo "<pre>" . print_r($_POST, true) . "</pre>";
 
-if (isset($_POST['adicionarslot']) && !empty($_POST['datanova']) && !empty($_POST['horanova'])) {
-    $datanova = date("Y-m-d", strtotime($_POST['datanova']));
-    $horanova = $_POST['horanova'];
-    $sql = "INSERT INTO slot (hora_inicio, hora_fim, data_slot, torneio_id) VALUES ('$horanova', '', '$datanova', $torneioid)";
-    if (!($conn->query($sql))) {
-        echo mysqli_error($conn);
-    }
-}
-
-
-$sql = "SELECT DISTINCT GREATEST( b.nome, a.nome) as first, LEAST( b.nome, a.nome) as second 
-FROM equipa a, equipa b 
-WHERE a.nome <> b.nome 
-AND a.aceite = 1 
-AND b.aceite = 1 
-ORDER BY first";
-if (!($jogos = $conn->query($sql))) {
-    echo mysqli_error($conn);
-}
-$Njogos = $jogos->num_rows;
-
-$sql = "SELECT *
-FROM slot
-WHERE torneio_id = $torneioid
-ORDER BY data_slot";
-if (!($slots = $conn->query($sql))) {
-    echo mysqli_error($conn);
-}
-$Nslots = $slots->num_rows;
-
-$slotSuficientes = true;
-if ($Nslots < $Njogos) {
-    $slotSuficientes = true;
-}
-
-if (isset($_POST['criar']) && $slotSuficientes) {
-
-    //update do estado do torneio
-    $sql = "UPDATE torneio
-            SET iniciado = 1
-            WHERE id = $torneioid";
-    if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
-    }
-
-    //criação do jogo
-    $sql = "INSERT INTO jogo (golosa1, golosb1, golosa2, golosb2, slot_hora_inicio,slot_data, slot_torneio_id, equipa_nome, equipa_nome1) VALUES ";
-    $first = false;
-    while ($row = $jogos->fetch_assoc()) {
-        $usingSlot = $slots->fetch_assoc();
-        if ($first) {
-            $sql = $sql . ",";
-        } else {
-            $first = true;
-        }
-        $data = $usingSlot["data_slot"];
-        $hora_inicio = $usingSlot["hora_inicio"];
-        $first = $row["first"];
-        $second = $row["second"];
-        $sql = $sql . "(NULL, NULL, NULL,NULL, '$hora_inicio','$data' , $torneioid, '$first' , '$second')";
-    }
-    if (!$conn->query($sql)) {
-        echo mysqli_error($conn);
-    }
-
-    //deletar slots nao utilizados
-
-
-
-
-}
-
 
 if (isset($_POST['aceitar'])) {
     $nomeaceite = $_POST['aceitar'];
@@ -158,6 +86,97 @@ $sql = "SELECT hora_inicio ,data_slot, 'Sem campo' as semcampo
           WHERE slot.torneio_id = $torneioid ";
 $list_slots = $conn->query($sql);
 
+
+if (isset($_POST['adicionarslot']) && !empty($_POST['datanova']) && !empty($_POST['horanova'])) {
+    $datanova = date("Y-m-d", strtotime($_POST['datanova']));
+    $horanova = $_POST['horanova'];
+    $sql = "INSERT INTO slot (hora_inicio, hora_fim, data_slot, torneio_id) VALUES ('$horanova', '', '$datanova', $torneioid)";
+    if (!($conn->query($sql))) {
+        echo mysqli_error($conn);
+    }
+}
+
+
+$sql = "SELECT DISTINCT GREATEST( b.nome, a.nome) as first, LEAST( b.nome, a.nome) as second 
+FROM equipa a, equipa b 
+WHERE a.nome <> b.nome 
+AND a.aceite = 1 
+AND b.aceite = 1 
+AND a.torneio_id = $torneioid
+AND b.torneio_id = $torneioid
+ORDER BY first";
+if (!($jogos = $conn->query($sql))) {
+    echo mysqli_error($conn);
+}
+$Njogos = $jogos->num_rows;
+
+$sql = "SELECT *
+FROM slot
+WHERE torneio_id = $torneioid
+ORDER BY data_slot";
+if (!($slots = $conn->query($sql))) {
+    echo mysqli_error($conn);
+}
+$Nslots = $slots->num_rows;
+$slotSuficientes = true;
+if ($Nslots < $Njogos) {
+    $slotSuficientes = false;
+}
+echo $Njogos;
+if (isset($_POST['criar']) && $slotSuficientes) {
+
+    //update do estado do torneio
+    $sql = "UPDATE torneio
+            SET iniciado = 1
+            WHERE id = $torneioid";
+    if (!$conn->query($sql)) {
+        echo mysqli_error($conn);
+    }
+
+    //criação do jogo
+    $sql = "INSERT INTO jogo (golosa1, golosb1, golosa2, golosb2, slot_hora_inicio,slot_data, slot_torneio_id, equipa_nome, equipa_nome1) VALUES ";
+    $first = false;
+    if ($jogos->num_rows > 0) {
+        while ($row = $jogos->fetch_assoc()) {
+            $usingSlot = $slots->fetch_assoc();
+            if ($first) {
+                $sql = $sql . ",";
+            } else {
+                $first = true;
+            }
+            $data = $usingSlot["data_slot"];
+            $hora_inicio = $usingSlot["hora_inicio"];
+            $first = $row["first"];
+            $second = $row["second"];
+            $sql = $sql . "(NULL, NULL, NULL,NULL, '$hora_inicio','$data' , $torneioid, '$first' , '$second')";
+        }
+        if (!$conn->query($sql)) {
+            echo mysqli_error($conn);
+        }
+    } else {
+        echo "<script>alert('Nao pode criar torneio sem jogos');</script>";
+    }
+}
+
+if (isset($_POST['deletartorneio'])) {
+    //deletar equipes criadas para o torneio
+    $sql = "DELETE FROM equipa 
+    WHERE equipa.torneio_id = $torneioid";
+    if (!$conn->query($sql)) {
+        echo mysqli_error($conn);
+    }
+    $sql = "DELETE FROM slot 
+    WHERE slot.torneio_id = $torneioid";
+    if (!$conn->query($sql)) {
+        echo mysqli_error($conn);
+    }
+    $sql = "DELETE FROM torneio 
+    WHERE torneio.id = $torneioid";
+    if (!$conn->query($sql)) {
+        echo mysqli_error($conn);
+    }
+    header("Location: index.php");
+}
 ?>
 
 <html>

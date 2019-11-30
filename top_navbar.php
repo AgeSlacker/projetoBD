@@ -10,8 +10,7 @@
     <div class="container-fluid"><a class="navbar-brand" href="index.php" style="color: rgb(255,255,255);"><img src="assets/images/icon.png" style="margin-right:15px;width:50px;height:50px;filter:invert(100%);">DBola</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color: rgb(255,255,255);">Quero Jogar</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="listar_torneios.php" style="color: rgb(255,255,255);">Lista Torneios</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="listar_torneios.php" style="color: rgb(255,255,255);">Quero Jogar</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="criarTorneio.php" style="color: rgb(255,255,255);">Criar Torneio</a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="About.php" style="color: rgb(255,255,255);">Sobre/Ajuda</a></li>
                 <?php
