@@ -14,7 +14,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
     <link rel="stylesheet" href="assets/css/styles.css?h=d41d8cd98f00b204e9800998ecf8427e">
 </head>
 
-<body style="overflow-x: hidden;">
+<body>
     <?php require_once "top_navbar.php" ?>
     <div class="row">
         <div class="col">
@@ -50,7 +50,7 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
                                     echo "<td>";
                                     echo $row["posicao"];
                                     echo "</td>";
-                                    echo "<td><button class=\"btn btn-primary\" type=\"button\" style=\"padding-right: 12px;margin-right: 10px;height: 38px;\">Gerir</button><button class=\"btn btn-primary\" type=\"button\">Info</button></td>";
+                                    //echo "<td><button class=\"btn btn-primary\" type=\"button\" style=\"padding-right: 12px;margin-right: 10px;height: 38px;\">Gerir</button><button class=\"btn btn-primary\" type=\"button\">Info</button></td>";
                                     echo "</tr>";
                                 }
                             }

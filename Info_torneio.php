@@ -228,9 +228,9 @@ if (isset($_GET["id"])) {
             }
             $iniciado = $iniciado->fetch_assoc();
             if ($iniciado["iniciado"] != 1)
-                echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='Criar_nova_equipa.php?id=<?php echo $id ?>'>Criar nova equipa</a>";
+                echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='Criar_nova_equipa.php?id=$id'>Criar nova equipa</a>";
             if ($torn == $tid && $iniciado["iniciado"] != 1) {
-                echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='GerenciarTorneios.php?torneioid=" . $tid . "'>Gerenciar Torneio</a>";
+                echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='GerenciarTorneios.php?torneioid=$tid'>Gerenciar Torneio</a>";
             }
         }
         ?>

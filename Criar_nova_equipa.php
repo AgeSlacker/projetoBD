@@ -12,7 +12,8 @@ if (isset($_GET["id"])) {
         //echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
         // TODO verificar se ja existe equipa assim, se o torneio nao est+a iniciado
         $sql = "INSERT INTO equipa (nome, composicao, pessoa_cc, torneio_id) 
-                VALUES ('$nome', NULL, $pessoa_cc, $id)";
+                VALUES ('$nome', '4-3-3', $pessoa_cc, $id)";
+        //echo $sql;
         if (!$conn->query($sql)) {
             echo mysqli_error($conn);
         };
