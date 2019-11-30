@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <?php require "top_navbar.php" ?>
+    <h1 style="margin-bottom:40px;margin-top:45px;" align="center">Register</h1>
     <div id="registerform" class="container" style="max-width: 350px">
         <form method="post">
             <div class="form-group"><input class="form-control" type="text" placeholder="Nome" required="" name="name"></div>
@@ -78,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="form-group"><input class="form-control" type="email" placeholder="Email" required="" name="email"></div>
             <div class="form-group"><input class="form-control" type="password" placeholder="password" required="" minlength="6" maxlength="18" name="password"></div>
             <div class="form-group"><input class="form-control" type="password" placeholder="repeat password" required="" minlength="6" maxlength="18" name="password_repeat"></div>
-            <div class="form-group text-center"><button class="btn btn-primary" type="submit">Register</button></div>
-            <div class="form-group text-center"><a href="login.php">Already registered? Click here to login</a></div>
+            <div class="form-group text-center"><button class="btn btn-dark" type="submit">Register</button></div>
+            <div class="form-group text-center" style="margin-bottom:100px;"><a href="login.php">Já possui uma conta? Clique aqui</a></div>
         </form>
     </div>
     <?php require "footer.php" ?>
