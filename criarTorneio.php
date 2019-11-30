@@ -70,6 +70,7 @@ if (isset($_POST['criar'])) {
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
+            header("Location: listar_torneios.php");
         }
     }
 }
