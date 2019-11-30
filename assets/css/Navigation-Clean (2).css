@@ -161,3 +161,8 @@
   }
 }
 
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background: #000000;
+}
+
