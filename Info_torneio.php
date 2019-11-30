@@ -149,19 +149,11 @@ if (isset($_GET["id"])) {
                                 <td>" . $row["nome"] . "</td>
                                 <td>" . (14 - $row["num_jogadores"]) . "</td>
                                 <td>" . $row["capnome"] . " " . $row["sobrenome"] . "</td>
-                                <td><a href='' class='btn btn-secondary btn-sm' role='button'>Info&nbsp;<i class='fa fa-long-arrow-right'></i></a></td>
+                                <td><a href='Info_equipa.php?nome=$nome&tid=$id' class='btn btn-secondary btn-sm' role='button'>Info&nbsp;<i class='fa fa-long-arrow-right'></i></a></td>
                                 <td><a href='Inscricao_equipa.php?nome=$nome&tid=$id' class='btn btn-secondary btn-sm' role='button'>Inscrever</a></td>
                                 </tr>";
                             }
                             ?>
-
-                            <tr>
-                                <td><img>Cell 1</td>
-                                <td>Cell 2</td>
-                                <td>Cell 3</td>
-                                <td><button class="btn btn-secondary btn-sm" type="button">Info&nbsp;<i class="fa fa-long-arrow-right"></i></button></td>
-                                <td><button class="btn btn-secondary btn-sm" type="button">Inscrever</button></td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>

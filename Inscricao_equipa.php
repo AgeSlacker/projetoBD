@@ -3,21 +3,17 @@ session_start();
 require "force_login.php";
 require_once "connect.php";
 
-
 function exit_to_list_torneios()
 {
     header("Location: listar_torneios.php");
     exit();
 }
 
-$jogadores;
-
+$posValida = true;
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Inscrever o jogador na equipa
     if (!empty($_POST["titularSelect"])) {
-
         echo '<pre>' . print_r($_POST, TRUE) . '</pre>';
-
         $cc = $_SESSION["cc"];
         $equipaNome = $_POST["equipaNome"]; // TODO check if set
         $gr = (isset($_POST["podeGuardaRedes"]) && $_POST["podeGuardaRedes"] == "on") ? 1 : 0;
@@ -29,6 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!$conn->query($sql)) {
             echo mysqli_error($conn);
         }
+    } else {
+        $posValida = false;
     }
 }
 
@@ -81,16 +79,19 @@ if (isset($_GET["nome"])) {
                                         <input hidden value="<?php echo $_GET["nome"] ?>" name="equipaNome">
                                         <select class="form-control form-control-sm" style="max-width: 200px;" id="titularSelect" name="titularSelect">
                                             <optgroup label="Escolha uma posiçao">
-                                                <option selected="">Avançado</option>
+                                                <option value="">Escolha uma posicao</option>
+                                                <option>Avançado</option>
                                                 <option>Médio</option>
                                                 <option>Defesa</option>
                                                 <option>Guarda Redes</option>
                                             </optgroup>
                                         </select>
+                                        <small id='invalidWarning' class='text-danger' <?php if ($posValida) {
+                                                                                            echo "hidden";
+                                                                                        } ?>>Escolha uma posição!</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6" id="serverAns" style="align-items: center; display: flex;">
-                                    <p>TEST</p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -146,18 +147,16 @@ if (isset($_GET["nome"])) {
 <script>
     $(document).ready(function() {
         $("#titularSelect").change(function() {
-            <<
-            <<
-            << < HEAD
-            alert("there we go"); ===
-            ===
-            = >>>
-            >>>
-            > origin / achilles
-            $("#serverAns").load("get_team_slots.php", {
-                position: $("#titularSelect").val(),
-                equipa: <?php echo '"' . $_GET["nome"] . '"' ?>
-            });
+            $selected = $("#titularSelect");
+            if ($selected.val()) {
+                $("#invalidWarning").hide();
+                $("#serverAns").load("get_team_slots.php", {
+                    position: $("#titularSelect").val(),
+                    equipa: <?php echo '"' . $_GET["nome"] . '"' ?>
+                });
+            } else {
+                $("#invalidWarning").show();
+            }
         });
     });
 </script>
