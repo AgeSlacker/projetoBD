@@ -214,7 +214,7 @@ if (isset($_GET["id"])) {
         </div>
     </div>
     <div class="container text-center"><button class="btn btn-dark" type="button" style="margin: 10px;">Inscrever na Reserva</button>
-        <a class="btn btn-dark" role="button" style="margin: 10px;" href="Criar_nova_equipa.php?id=<?php echo $id ?>">Criar nova equipa</a>
+
         <?php
         if (isset($_SESSION["cc"])) {
             $tid = $_GET["id"];
@@ -231,7 +231,8 @@ if (isset($_GET["id"])) {
                 echo mysqli_error($conn);
             }
             $iniciado = $iniciado->fetch_assoc();
-
+            if ($iniciado["iniciado"] != 1)
+                echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='Criar_nova_equipa.php?id=<?php echo $id ?>'>Criar nova equipa</a>";
             if ($torn == $tid && $iniciado["iniciado"] != 1) {
                 echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='GerenciarTorneios.php?torneioid=" . $tid . "'>Gerenciar Torneio</a>";
             }
