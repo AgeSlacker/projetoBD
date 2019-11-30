@@ -213,8 +213,24 @@ if (isset($_GET["id"])) {
             </div>
         </div>
     </div>
-    <div class="container text-center"><button class="btn btn-primary" type="button" style="margin: 10px;">Inscrever na Reserva</button>
-        <a class="btn btn-primary" role="button" style="margin: 10px;" href="Criar_nova_equipa.php?id=<?php echo $id ?>">Criar nova equipa</a>
+    <div class="container text-center"><button class="btn btn-dark" type="button" style="margin: 10px;">Inscrever na Reserva</button>
+        <a class="btn btn-dark" role="button" style="margin: 10px;" href="Criar_nova_equipa.php?id=<?php echo $id ?>">Criar nova equipa</a>
+        <?php
+        if (isset($_SESSION["cc"])) {
+            $tid = $_GET["id"];
+            $sql = "SELECT torneio_id
+                    FROM torneio_gestor LEFT JOIN torneio on torneio_id = id
+                    WHERE pessoa_cc = " . $_SESSION['cc'] . "
+                    AND torneio_id = $tid";
+            if (!$torn = $conn->query($sql)) {
+                echo mysqli_error($conn);
+            }
+            $torn = $torn->fetch_assoc();
+            if ($torn = $tid) {
+                echo "<a class='btn btn-dark' role='button' style='margin: 10px;' href='GerenciarTorneios.php?torneioid=" . $tid . "'>Gerenciar Torneio</a>";
+            }
+        }
+        ?>
     </div>
     <div class="footer-dark" style="background-color: rgb(0,0,0);">
         <?php require "footer.php" ?>

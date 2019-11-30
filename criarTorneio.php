@@ -70,6 +70,11 @@ if (isset($_POST['criar'])) {
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
+            $pessoacc = $_SESSION['cc'];
+            $sql = "INSERT INTO torneio_gestor (torneio_id,pessoa_cc) VALUES ($idtorneio,$pessoacc)";
+            if (!$conn->query($sql)) {
+                echo mysqli_error($conn);
+            }
             header("Location: listar_torneios.php");
         }
     }

@@ -12,15 +12,17 @@
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item" role="presentation"><a class="nav-link" href="listar_torneios.php" style="color: rgb(255,255,255);">Quero Jogar</a></li>
                 <?php
-                $sql = "SELECT pode_criar
-                            FROM pessoa
-                            WHERE pessoa.cc = " . $_SESSION['cc'];
-                if (!$pode = $conn->query($sql)) {
-                    echo mysqli_error($conn);
-                }
-                $podecriar = $pode->fetch_assoc();
-                if ($podecriar['pode_criar'] == 1) {
-                    echo "<li class='nav-item' role='presentation'><a class='nav-link' href='criarTorneio.php' style='color: rgb(255,255,255);'>Criar Torneio</a></li>";
+                if (isset($_SESSION['cc'])) {
+                    $sql = "SELECT pode_criar
+                                FROM pessoa
+                                WHERE pessoa.cc = " . $_SESSION['cc'];
+                    if (!$pode = $conn->query($sql)) {
+                        echo mysqli_error($conn);
+                    }
+                    $podecriar = $pode->fetch_assoc();
+                    if ($podecriar['pode_criar'] == 1) {
+                        echo "<li class='nav-item' role='presentation'><a class='nav-link' href='criarTorneio.php' style='color: rgb(255,255,255);'>Criar Torneio</a></li>";
+                    }
                 }
                 ?>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="About.php" style="color: rgb(255,255,255);">Sobre/Ajuda</a></li>
