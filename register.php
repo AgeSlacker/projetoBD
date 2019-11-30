@@ -8,6 +8,8 @@ if ((isset($_SESSION['logged'])) && ($_SESSION['logged'] == true)) {
 
 require_once "connect.php";
 
+echo print_r($_POST, true);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (
         !empty($_POST["name"]) &&
@@ -17,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         !empty($_POST["password"]) &&
         !empty($_POST["password_repeat"])
     ) {
+
         $error = false;
         $cc = mysqli_escape_string($conn, $_POST["cc"]);
         $name = mysqli_escape_string($conn, $_POST["name"]);
@@ -38,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (!$conn->query($sql)) {
                 echo mysqli_error($conn);
             }
+            header("Location: login.php");
+            exit();
         }
     }
 }
