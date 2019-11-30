@@ -15,6 +15,7 @@ if ($conn->connect_error) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Minha Área</title>
+    <link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body style="overflow-x: hidden;">

@@ -23,6 +23,7 @@ if ($conn->connect_error) {
 	<title>Minhas_equipas</title>
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css?h=55a404c6b19f68e1c3974b42d10918d9">
 	<link rel="stylesheet" href="assets/css/styles.css?h=d41d8cd98f00b204e9800998ecf8427e">
+	<link rel="icon" href="assets/images/icon.ico" type="image/gif">
 </head>
 
 <body style="overflow-x: hidden;">
