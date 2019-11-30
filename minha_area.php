@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Minha_area</title>
+    <title>Minha Área</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
     <link rel="stylesheet" href="assets/css/Navigation-Menu.css">
@@ -40,7 +40,7 @@ if ($conn->connect_error) {
 					$nomelog = $row["nome"];
 					
 				echo $nomelog;}
-						?>)</h1>
+						?> )</h1>
         </div>
     </div>
     <div class="row" style="height: 15%;">
@@ -51,7 +51,7 @@ if ($conn->connect_error) {
         </div>
         <div class="col-md-3">
             <ul class="nav nav-tabs" style="width: 100%;">
-                <li class="nav-item" style="width: 100%;"><a class="nav-link active d-xl-flex justify-content-xl-center align-items-xl-center" href="#" style="background-color: rgb(0,0,0);color: rgb(255,255,255);">Torneios</a></li>
+                <li class="nav-item" style="width: 100%;"><a class="nav-link active d-xl-flex justify-content-xl-center align-items-xl-center" href="Meus_torneios.php" style="background-color: rgb(0,0,0);color: rgb(255,255,255);">Torneios</a></li>
             </ul>
         </div>
         <div class="col-md-3">
@@ -72,9 +72,10 @@ if ($conn->connect_error) {
                     <h2 class="text-center">Estatísticas</h2>
                     <p style="margin-top: 26px;">Torneios Participados: <?php	$cc = $_SESSION["cc"];
 											$pesquisa = "SELECT *
-														FROM torneio_jogador
-														WHERE pessoa_cc = '$cc'";
-											
+														FROM posjogadorequipa as p, jogo
+														WHERE (p.equipa_nome = jogo.equipa_nome OR p.equipa_nome = jogo.equipa_nome1)
+														AND p.pessoa_cc = '$cc'
+														GROUP BY slot_torneio_id";
 											if($result= $conn->query($pesquisa)){
 												$count_torn = $result->num_rows;
 												echo $count_torn;
@@ -85,7 +86,7 @@ if ($conn->connect_error) {
                     <p>Jogos Participados: <?php	$cc = $_SESSION["cc"];
 											$pesquisa = "SELECT *
 														FROM posjogadorequipa as p, jogo
-														WHERE p.equipa_nome = jogo.equipa_nome OR p.equipa_nome = jogo.equipa_nome1
+														WHERE (p.equipa_nome = jogo.equipa_nome OR p.equipa_nome = jogo.equipa_nome1)
 														AND p.pessoa_cc = '$cc'";
 											if($result= $conn->query($pesquisa)){
 												$count_jog = $result->num_rows;
@@ -95,6 +96,7 @@ if ($conn->connect_error) {
 											else{echo "error in sql syntax";}
 					?></p>
                     <p>Golos Marcados: <?php	$cc = $_SESSION["cc"];
+											
 											$pesquisa = "SELECT *
 														FROM golos
 														WHERE pessoa_cc = '$cc' AND valido = 1";
@@ -110,6 +112,7 @@ if ($conn->connect_error) {
             </div>
         </div>
     </div>
+	
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
